@@ -202,7 +202,7 @@
 /* Lacre de Cera 3D */
 .wax-seal-container {
   position: absolute;
-  top: 120px;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 88px;
@@ -339,23 +339,33 @@
 
 /* Responsividade Envelope */
 @media (max-width: 480px) {
+  .envelope-screen {
+    padding: 16px;
+  }
   .envelope-wrapper {
-    width: 310px;
-    height: 210px;
+    width: min(320px, calc(100vw - 32px));
+    height: 215px;
   }
   .wax-seal-container {
-    top: 105px;
-    width: 78px;
-    height: 78px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 74px;
+    height: 74px;
   }
   .envelope-card-preview {
-    padding: 12px;
+    padding: 10px;
   }
   .envelope-card-preview .card-monogram {
-    width: 65px;
+    width: 58px;
+    margin-bottom: 4px;
   }
   .envelope-card-preview .card-names {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+  }
+  .envelope-card-preview .card-date {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
   }
   @keyframes cardSlideUp {
     0% {
@@ -366,7 +376,7 @@
       z-index: 5;
     }
     100% {
-      transform: translateY(-135px) scale(1.05);
+      transform: translateY(-130px) scale(1.04);
       z-index: 5;
       box-shadow: 0 16px 35px rgba(0, 0, 0, 0.4);
     }

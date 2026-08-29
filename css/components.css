@@ -981,45 +981,289 @@
   color: var(--olive-300);
 }
 
-/* Responsividade de Componentes */
+/* ==========================================================================
+   RESPONSIVIDADE AVANÇADA PARA SMARTPHONES & TABLETS
+   ========================================================================== */
+
 @media (max-width: 768px) {
+  /* Container e Espaçamentos */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Barra Flutuante de Navegação (Dock de App Mobile) */
   .floating-navbar {
-    width: 90%;
-    justify-content: space-around;
-    padding: 6px 10px;
-    gap: 4px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 20px);
+    max-width: 440px;
+    padding: 5px 6px;
+    gap: 3px;
+    justify-content: space-between;
   }
+
   .floating-navbar a {
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     letter-spacing: 0.5px;
-    padding: 5px 8px;
+    padding: 6px 8px;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
   }
+
+  .floating-navbar a i {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  /* Widget Flutuante de Áudio */
   .music-player-widget {
-    top: 14px;
-    right: 14px;
-    padding: 6px 12px 6px 8px;
+    top: 12px;
+    right: 12px;
+    padding: 5px 10px 5px 6px;
+    gap: 8px;
+    max-width: calc(100vw - 24px);
   }
+
+  .music-btn-play {
+    width: 30px;
+    height: 30px;
+  }
+
+  .music-title {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.68rem;
+  }
+
+  .music-author {
+    font-size: 0.60rem;
+  }
+
+  /* Contagem Regressiva em 4 colunas perfeitas sem quebrar linha */
+  .countdown-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 420px;
+    margin: 25px auto 10px;
+  }
+
+  .countdown-box {
+    min-width: 0;
+    padding: 12px 4px;
+    border-radius: 12px;
+  }
+
+  .countdown-number {
+    font-size: clamp(1.4rem, 5.5vw, 2.1rem);
+  }
+
+  .countdown-label {
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+  }
+
+  /* Locais (Cerimônia & Recepção) */
+  .venues-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .venue-image-wrapper {
+    height: 220px;
+  }
+
+  .venue-body {
+    padding: 22px 18px;
+  }
+
+  .venue-title {
+    font-size: 1.6rem;
+  }
+
+  .venue-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .venue-actions .btn {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  /* Linha do Tempo Vertical */
+  .timeline-wrapper {
+    padding-left: 0;
+  }
+
   .timeline-wrapper::before {
     left: 20px;
   }
+
   .timeline-item {
-    flex-direction: row !important;
-    margin-left: 20px;
+    display: block;
+    position: relative;
+    padding-left: 54px;
+    margin-bottom: 26px;
+    margin-left: 0 !important;
   }
+
   .timeline-node {
+    position: absolute;
     left: 0;
+    top: 0;
+    width: 42px;
+    height: 42px;
   }
+
   .timeline-content {
-    width: calc(100% - 40px);
-    margin-left: 40px;
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 18px 16px;
   }
+
+  .timeline-title {
+    font-size: 1.25rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.85rem;
+  }
+
+  /* Nossa História / Foto do Casal */
   .story-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .story-polaroid {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 12px 12px 24px 12px;
+    transform: rotate(0deg) !important;
+  }
+
+  .story-polaroid img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    object-position: 50% 20%;
+  }
+
+  .story-content {
+    text-align: center;
+  }
+
+  .story-content h3 {
+    font-size: 1.85rem;
+  }
+
+  /* Dress Code & Paletas */
+  .luxury-card.dress-code-box {
+    padding: 24px 16px;
+  }
+
+  .dress-code-title {
+    font-size: 1.25rem;
+  }
+
+  .reserved-roles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .reserved-role-card {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .palette-swatches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px 8px;
+    justify-content: center;
+  }
+
+  .swatch-circle {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 6px;
+  }
+
+  .swatch-name {
+    font-size: 0.72rem;
+  }
+
+  .restricted-warning-box {
+    padding: 16px 14px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  /* RSVP Form */
+  .luxury-card.rsvp-container {
+    padding: 24px 16px;
+  }
+
+  .radio-presence-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .radio-presence-box {
+    padding: 14px 12px;
+    justify-content: center;
+  }
+
+  .counter-wrapper {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px; /* Previne auto-zoom indesejado no iOS */
+    padding: 12px 14px;
+  }
+
+  /* Dicas Úteis */
+  .tips-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .tip-card {
+    padding: 20px 16px;
+  }
+}
+
+/* Telas Muito Pequenas (< 380px) */
+@media (max-width: 380px) {
+  .floating-navbar a span {
+    display: none; /* Em telas ultracompactas foca nos ícones */
+  }
+  .floating-navbar a {
+    padding: 8px 10px;
+  }
+  .countdown-number {
+    font-size: 1.35rem;
+  }
+  .countdown-label {
+    font-size: 0.58rem;
   }
   .story-polaroid img {
-    height: 280px;
-  }
-  .venue-actions {
-    grid-template-columns: 1fr;
+    height: 320px;
   }
 }
