@@ -9,7 +9,7 @@
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
+  z-index: 10005;
   background: rgba(44, 54, 39, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -55,7 +55,7 @@
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 100;
+  z-index: 10005;
   background: rgba(250, 247, 242, 0.92);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(197, 160, 89, 0.4);
