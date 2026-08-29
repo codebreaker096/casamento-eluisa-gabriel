@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isOpening) return;
     isOpening = true;
 
-    // Efeito sonoro harmônico de celebração com piano e harpa
+    // Abertura exuberante e delicada de harpa e sino celestial
     if (window.weddingAudio) {
-      window.weddingAudio.playChime();
+      window.weddingAudio.playExuberantOpening();
       setTimeout(() => {
         window.weddingAudio.playBGM();
-      }, 1500);
+      }, 2200);
     }
 
     // Explosão suave de confetes dourados e folhas de oliveira
