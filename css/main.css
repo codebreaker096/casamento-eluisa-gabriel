@@ -83,14 +83,14 @@ body {
   line-height: 1.6;
 }
 
-/* Background Canvas Three.js fixo no fundo */
+/* Background Canvas Three.js (Partículas peroladas sobre o fundo verde e convite) */
 #webgl-canvas-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 120;
   pointer-events: none;
   opacity: 0.85;
 }
@@ -98,7 +98,7 @@ body {
 /* Container de conteúdo principal */
 #main-invitation {
   position: relative;
-  z-index: 2;
+  z-index: 140;
   width: 100%;
   min-height: 100vh;
   opacity: 0;

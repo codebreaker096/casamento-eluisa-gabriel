@@ -9,7 +9,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 100;
   background: radial-gradient(circle at center, #263022 0%, #151A13 100%);
   display: flex;
   flex-direction: column;
@@ -46,7 +46,8 @@
 .envelope-header-text {
   text-align: center;
   margin-bottom: 26px;
-  z-index: 10;
+  position: relative;
+  z-index: 150;
   opacity: 1;
   transform: translateY(0);
   transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -78,6 +79,7 @@
 /* Container do Envelope */
 .envelope-wrapper {
   position: relative;
+  z-index: 150;
   width: 360px;
   height: 240px;
   max-width: 90vw;
@@ -318,7 +320,8 @@
   font-size: 0.8rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  z-index: 10;
+  position: relative;
+  z-index: 150;
   animation: bounceHint 2s infinite ease-in-out;
   cursor: pointer;
   padding: 8px 16px;
