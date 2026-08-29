@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <!-- Organic radial gradient for olive wax -->
+    <radialGradient id="waxGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#6B805E" />
+      <stop offset="35%" stop-color="#4D5D43" />
+      <stop offset="70%" stop-color="#36422F" />
+      <stop offset="100%" stop-color="#242D1F" />
+    </radialGradient>
+    
+    <!-- Gold sheen gradient -->
+    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCEBA2" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#997A15" />
+    </linearGradient>
+
+    <!-- Bevel & 3D shadow filters -->
+    <filter id="waxShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#141A11" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+
+    <filter id="emboss" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="1.5" stdDeviation="0.8" flood-color="#FFFFFF" flood-opacity="0.35"/>
+      <feDropShadow dx="-1" dy="-1.5" stdDeviation="0.8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Organic wax drip seal body -->
+  <g filter="url(#waxShadow)">
+    <path d="M 100,10 
+             C 120,8 135,16 150,25 
+             C 168,36 182,50 188,70 
+             C 194,90 190,112 184,130 
+             C 178,150 166,168 148,180 
+             C 130,192 108,194 90,190 
+             C 70,186 52,176 38,162 
+             C 22,146 12,126 10,105 
+             C 8,82 18,62 32,45 
+             C 48,26 72,12 100,10 Z" 
+          fill="url(#waxGrad)" stroke="#5B6D50" stroke-width="1.5"/>
+
+    <!-- Inner indented rim -->
+    <circle cx="100" cy="100" r="68" fill="none" stroke="#36422F" stroke-width="3.5" opacity="0.8"/>
+    <circle cx="100" cy="100" r="65" fill="none" stroke="#7A936C" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="100" cy="100" r="62" fill="#43523A" opacity="0.45"/>
+
+    <!-- Botanical olive sprig ring inside seal -->
+    <g stroke="url(#goldSheen)" fill="none" stroke-width="1.2" opacity="0.75">
+      <path d="M 52,100 A 48,48 0 0,1 148,100" stroke-dasharray="3,4"/>
+      <path d="M 52,100 A 48,48 0 0,0 148,100" stroke-dasharray="3,4"/>
+    </g>
+
+    <!-- Embossed Monogram E & G -->
+    <g filter="url(#emboss)" text-anchor="middle">
+      <text x="76" y="112" font-family="'Playfair Display', 'Cormorant Garamond', serif" font-size="44" font-weight="600" font-style="italic" fill="url(#goldSheen)">E</text>
+      <text x="100" y="106" font-family="'Cormorant Garamond', serif" font-size="30" font-weight="300" font-style="italic" fill="#E6D38E">&amp;</text>
+      <text x="124" y="112" font-family="'Playfair Display', 'Cormorant Garamond', serif" font-size="44" font-weight="600" font-style="normal" fill="url(#goldSheen)">G</text>
+      
+      <!-- Small gold star / dot under monogram -->
+      <circle cx="100" cy="128" r="2.5" fill="url(#goldSheen)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Eluisa & Gabriel — Convite de Casamento</title>
+  <meta name="description" content="Celebração do Matrimônio de Eluisa e Gabriel. 17 de Janeiro de 2027 às 10:00h na Capela Sagrada Família e Recepção no Brizola Halls, Rio Tinto - PB.">
+  
+  <!-- Favicon / Ícone -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/monogram.svg">
+  
+  <!-- CSS do Projeto -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/envelope.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Three.js para Efeitos Gráficos 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- 1. CENÁRIO 3D WEBGL (THREE.JS) -->
+  <div id="webgl-canvas-container"></div>
+
+  <!-- 2. ENVELOPE 3D COM LACRE DE CERA INTERATIVO -->
+  <div id="envelope-screen">
+    <div class="envelope-bg-glow"></div>
+    
+    <div class="envelope-header-text">
+      <h3>Você está convidado para celebrar o amor de</h3>
+      <p>Eluisa &amp; Gabriel • Salema, Rio Tinto - PB</p>
+    </div>
+
+    <div class="envelope-wrapper" id="envelope-wrapper">
+      <div class="envelope-box">
+        <!-- Forro Interno com Arte Botânica -->
+        <div class="envelope-liner"></div>
+        
+        <!-- Cartão Teaser dentro do Envelope -->
+        <div class="envelope-card-preview" id="envelope-card-preview">
+          <img src="assets/icons/monogram.svg" alt="Monograma E & G" class="card-monogram">
+          <div class="card-names">Eluisa &amp; Gabriel</div>
+          <div class="card-date">17 · 01 · 2027 • 10:00h</div>
+        </div>
+
+        <!-- Abas Laterais e Inferior em Vetor SVG Nítido -->
+        <div class="envelope-flaps-container">
+          <svg class="flap-svg-layer" viewBox="0 0 360 240" preserveAspectRatio="none">
+            <!-- Aba Esquerda -->
+            <polygon points="0,0 0,240 180,120" fill="#323E2C" />
+            <!-- Aba Direita -->
+            <polygon points="360,0 360,240 180,120" fill="#354230" />
+            <!-- Aba Inferior -->
+            <polygon points="0,240 360,240 180,110" fill="#283223" />
+            <!-- Borda Dourada sutil -->
+            <polyline points="0,240 180,110 360,240" fill="none" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <!-- Aba Superior Articulada em 3D -->
+        <div class="envelope-top-flap-wrapper" id="envelope-top-flap">
+          <svg class="envelope-top-flap-svg" viewBox="0 0 360 240" preserveAspectRatio="none">
+            <polygon points="0,0 360,0 180,130" fill="#43523B" />
+            <polyline points="0,0 180,130 360,0" fill="none" stroke="rgba(212, 175, 55, 0.5)" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <!-- Lacre de Cera em Verde Oliva e Dourado -->
+        <div class="wax-seal-container" id="wax-seal-btn" title="Clique para romper o lacre e abrir o convite">
+          <img src="assets/icons/wax_seal.svg" alt="Lacre de Cera E & G" class="wax-seal-img">
+        </div>
+      </div>
+    </div>
+
+    <div class="envelope-action-hint" id="envelope-hint-btn">
+      <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+      <span>Toque no lacre para abrir</span>
+    </div>
+  </div>
+
+  <!-- 3. WIDGET FLUTUANTE DE ÁUDIO -->
+  <div class="music-player-widget" id="music-player-widget" title="Tocar / Pausar melodia clássica">
+    <button class="music-btn-play" id="music-toggle-btn" aria-label="Tocar ou pausar música">
+      <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+    </button>
+    <div class="music-info">
+      <span class="music-title" id="music-title">Arranjo Nupcial em Ré Maior</span>
+      <span class="music-author" id="music-author">Harpa, Violoncelo &amp; Piano</span>
+    </div>
+    <div class="visualizer-bars" id="visualizer-bars">
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+    </div>
+  </div>
+
+  <!-- 4. BARRA DE NAVEGAÇÃO FLUTUANTE -->
+  <nav class="floating-navbar" id="floating-navbar">
+    <a href="#cerimonia"><i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> Locais</a>
+    <a href="#cronograma"><i data-lucide="clock" style="width: 14px; height: 14px;"></i> Horários</a>
+    <a href="#historia"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> História</a>
+    <a href="#dresscode"><i data-lucide="palette" style="width: 14px; height: 14px;"></i> Traje</a>
+    <a href="#rsvp" class="nav-rsvp-btn"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i> RSVP</a>
+  </nav>
+
+  <!-- 5. CONTEÚDO PRINCIPAL DO CONVITE -->
+  <main id="main-invitation">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="inicio">
+      <div class="hero-botanical-frame"></div>
+      
+      <div class="hero-content">
+        <img src="assets/icons/monogram.svg" alt="Monograma E & G Oficial" class="hero-monogram-img">
+        
+        <span class="section-subtitle">Convidam com a bênção de Deus e de seus pais</span>
+        
+        <h1 class="hero-names">
+          Eluisa <span class="ampersand">&amp;</span> Gabriel
+        </h1>
+
+        <div class="hero-date-banner">
+          17 de Janeiro de 2027 • 10:00 Horas
+        </div>
+
+        <p class="hero-venue-summary">
+          Capela Sagrada Família &amp; Brizola Halls — Bairro de Salema, Rio Tinto - PB
+        </p>
+
+        <!-- Contagem Regressiva -->
+        <div class="countdown-container">
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-days">--</span>
+            <span class="countdown-label">Dias</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-hours">--</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-minutes">--</span>
+            <span class="countdown-label">Minutos</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-seconds">--</span>
+            <span class="countdown-label">Segundos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BÊNÇÃO & VERSÍCULO -->
+    <section class="section" style="padding-top: 20px;">
+      <div class="container">
+        <div class="luxury-card blessing-card">
+          <p class="blessing-verse">
+            “Acima de tudo, porém, revistam-se do amor, que é o elo perfeito.”
+          </p>
+          <span class="blessing-reference">Colossenses 3:14</span>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor de Folhas de Oliveira" class="botanical-divider">
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCAIS (CERIMÔNIA & RECEPÇÃO) -->
+    <section class="section" id="cerimonia">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Onde Celebraremos</span>
+          <h2 class="section-title">Cerimônia &amp; Recepção</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="venues-grid">
+          
+          <!-- Card Cerimônia Religiosa -->
+          <div class="luxury-card venue-card">
+            <div class="venue-image-wrapper">
+              <span class="venue-badge">Cerimônia Religiosa</span>
+              <img src="assets/images/ceremony_chapel.jpg" alt="Capela Sagrada Família">
+            </div>
+            <div class="venue-body">
+              <h3 class="venue-title">Capela Sagrada Família</h3>
+              <div class="venue-time">
+                <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
+                <span>Início pontual às 10:00h da manhã</span>
+              </div>
+              <p class="venue-address">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px; display: inline-block; vertical-align: text-top; color: var(--olive-600);"></i>
+                Capela Sagrada Família, Bairro de Salema, Rio Tinto - PB.
+              </p>
+              <div class="venue-actions">
+                <a href="https://maps.google.com/?q=Capela+Sagrada+Familia+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="map" style="width: 14px; height: 14px;"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?q=Capela+Sagrada+Familia+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="navigation" style="width: 14px; height: 14px;"></i> Waze
+                </a>
+                <button class="btn btn-gold venue-calendar-btn" id="btn-ceremony-calendar" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="calendar-plus" style="width: 14px; height: 14px;"></i> Salvar na Minha Agenda (.ics)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Recepção Brizola Halls -->
+          <div class="luxury-card venue-card">
+            <div class="venue-image-wrapper">
+              <span class="venue-badge">Recepção &amp; Festa</span>
+              <img src="assets/images/reception_hall.jpg" alt="Brizola Halls">
+            </div>
+            <div class="venue-body">
+              <h3 class="venue-title">Brizola Halls</h3>
+              <div class="venue-time">
+                <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
+                <span>A partir das 12:00h (Logo após a cerimônia)</span>
+              </div>
+              <p class="venue-address">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px; display: inline-block; vertical-align: text-top; color: var(--olive-600);"></i>
+                Brizola Halls, Espaço Nobre de Eventos, Bairro de Salema, Rio Tinto - PB.
+              </p>
+              <div class="venue-actions">
+                <a href="https://maps.google.com/?q=Brizola+Halls+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="map" style="width: 14px; height: 14px;"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?q=Brizola+Halls+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="navigation" style="width: 14px; height: 14px;"></i> Waze
+                </a>
+                <button class="btn btn-gold venue-calendar-btn" id="btn-reception-calendar" style="font-size: 0.75rem; padding: 10px 14px;">
+                  <i data-lucide="calendar-plus" style="width: 14px; height: 14px;"></i> Abrir no Google Calendar
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CRONOGRAMA / TIMELINE DO GRANDE DIA -->
+    <section class="section" id="cronograma">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Momento a Momento</span>
+          <h2 class="section-title">Linha do Tempo do Dia</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="timeline-wrapper">
+          
+          <!-- Item 1 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">09:30 Horas</span>
+              <h3 class="timeline-title">Chegada dos Convidados</h3>
+              <p class="timeline-desc">Acolhimento na Capela Sagrada Família com música instrumental suave e acomodação nos bancos.</p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="heart" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">10:00 Horas</span>
+              <h3 class="timeline-title">A Bênção dos Votos</h3>
+              <p class="timeline-desc">Entrada da noiva, liturgia do matrimônio, troca de alianças e bênção das famílias.</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="camera" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">11:30 Horas</span>
+              <h3 class="timeline-title">Chuva de Pétalas &amp; Fotos</h3>
+              <p class="timeline-desc">Cortejo de saída, fotos com padrinhos e familiares no pátio florido da capela.</p>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="glass-water" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">12:00 Horas</span>
+              <h3 class="timeline-title">Recepção no Brizola Halls</h3>
+              <p class="timeline-desc">Welcome drink refrescante, mesa de antepastos e acolhimento dos noivos no salão climatizado.</p>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="utensils" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">13:00 Horas</span>
+              <h3 class="timeline-title">Almoço Festivo &amp; Brinde</h3>
+              <p class="timeline-desc">Banquete gastronômico em homenagem à união e brinde com champagne dos recém-casados.</p>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="music" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">14:30 Horas</span>
+              <h3 class="timeline-title">Corte do Bolo &amp; Celebração na Pista</h3>
+              <p class="timeline-desc">Mesa de doces finos, brinde dos noivos e início da comemoração na pista de dança com muita música e alegria!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSSA HISTÓRIA & MENSAGEM DOS NOIVOS -->
+    <section class="section" id="historia">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-polaroid">
+            <img src="assets/images/couple_story.jpg" alt="Eluisa e Gabriel nas falésias da Paraíba">
+            <div class="story-polaroid-caption">O nosso para sempre começa aqui</div>
+          </div>
+          <div class="story-content">
+            <span class="section-subtitle">Nossa Caminhada &amp; Mensagem</span>
+            <h3>Uma História Escrita por Deus</h3>
+            <p>
+              Entre olhares sinceros, cumplicidade e conversas infinitas, descobrimos um no outro o nosso melhor refúgio e o amor das nossas vidas.
+            </p>
+            <p>
+              Sob o céu e o mar da Paraíba, sonhamos juntos com este grande momento. Agora, diante do altar na Capela Sagrada Família, selaremos o nosso juramento eterno.
+            </p>
+            <div class="story-quote">
+              “Mal podemos esperar para celebrar o dia mais especial das nossas vidas ao seu lado! Sua presença torna o nosso sonho completo.”
+              <div style="font-family: var(--font-sans); font-size: 0.85rem; font-style: normal; margin-top: 10px; font-weight: 600; color: var(--olive-800); letter-spacing: 2px;">
+                — COM AMOR, ELUISA &amp; GABRIEL
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DRESS CODE & GUIA DE CORES -->
+    <section class="section" id="dresscode">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Guia de Estilo &amp; Elegância</span>
+          <h2 class="section-title">Dress Code dos Convidados</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="luxury-card dress-code-box">
+          <h3 class="dress-code-title">Traje: Passeio Completo / Esporte Fino Matutino</h3>
+          <p class="dress-code-desc">
+            Nossa cerimônia e recepção acontecerão pela manhã (10:00h) no Bairro de Salema. Sugerimos trajes leves, fluidos e sofisticados para celebrar este momento inesquecível ao nosso lado.
+          </p>
+
+          <!-- 1. CORES RESERVADAS & EXCLUSIVAS -->
+          <div class="reserved-roles-container">
+            <!-- Noiva -->
+            <div class="reserved-role-card">
+              <div class="reserved-swatch" style="background-color: #FFFFFF; border: 2px solid #E8C87A;"></div>
+              <div class="reserved-info">
+                <span>Exclusivo da Noiva</span>
+                <h4>Branco &amp; Off-White</h4>
+                <p>Uso único e reservado da Noiva.</p>
+              </div>
+            </div>
+
+            <!-- Madrinhas -->
+            <div class="reserved-role-card">
+              <div class="reserved-swatch" style="background-color: #4D5D43;"></div>
+              <div class="reserved-info">
+                <span>Exclusivo do Altar</span>
+                <h4>Verde Oliva</h4>
+                <p>Paleta oficial e exclusiva das Madrinhas.</p>
+              </div>
+            </div>
+
+            <!-- Mães -->
+            <div class="reserved-role-card">
+              <div class="reserved-swatch" style="background-color: #C2634B;"></div>
+              <div class="reserved-info">
+                <span>Exclusivo das Mães</span>
+                <h4>Terracota</h4>
+                <p>Paleta reservada às Mães dos Noivos.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. PALETA SUGERIDA PARA CONVIDADAS -->
+          <div style="margin-top: 30px; border-top: 1px solid rgba(197, 160, 89, 0.25); padding-top: 25px;">
+            <h4 style="font-family: var(--font-serif-editorial); font-size: 1.4rem; color: var(--olive-900); margin-bottom: 8px;">
+              ✨ Paleta Sugerida para Convidadas
+            </h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 20px;">
+              Tons suaves, luminosos e elegantes que harmonizam com o frescor da manhã paraibana:
+            </p>
+
+            <div class="palette-swatches">
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #DFBE76;"></div>
+                <span class="swatch-name">Champagne</span>
+              </div>
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #E8DCC4;"></div>
+                <span class="swatch-name">Nude / Areia</span>
+              </div>
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #E2B2A5;"></div>
+                <span class="swatch-name">Rosa Chá</span>
+              </div>
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #D2C4D8;"></div>
+                <span class="swatch-name">Lavanda Claro</span>
+              </div>
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #F3C1A5;"></div>
+                <span class="swatch-name">Pêssego Suave</span>
+              </div>
+              <div class="swatch-item">
+                <div class="swatch-circle" style="background-color: #F7E9B7;"></div>
+                <span class="swatch-name">Amarelo Suave</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. AVISO DE CORES NÃO RECOMENDADAS -->
+          <div class="restricted-warning-box">
+            <i data-lucide="alert-circle" style="width: 26px; height: 26px;"></i>
+            <div>
+              <p>
+                <strong>Atenção aos tons restritos:</strong> Solicitamos gentilmente que as convidadas <u>não utilizem</u> 
+                <strong>Verde Oliva</strong> (exclusivo das Madrinhas), <strong>Terracota</strong> (exclusivo das Mães), 
+                <strong>Azul</strong> e <strong>Marsala</strong>, além dos tons claros reservados à Noiva.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIRMAÇÃO DE PRESENÇA (RSVP) -->
+    <section class="section" id="rsvp">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Sua Presença é Indispensável</span>
+          <h2 class="section-title">Confirmação de Presença (RSVP)</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="luxury-card rsvp-container">
+          <p style="text-align: center; color: var(--text-secondary); margin-bottom: 25px; font-size: 0.95rem;">
+            Por favor, confirme sua presença até o dia <strong>20 de Dezembro de 2026</strong> para que possamos organizar tudo com o máximo carinho e conforto.
+          </p>
+
+          <form id="wedding-rsvp-form" class="rsvp-form">
+            
+            <div class="form-group">
+              <label class="form-label" for="rsvp-name">Nome Completo do Titular *</label>
+              <input type="text" id="rsvp-name" class="form-input" placeholder="Ex: Lucas Henrique de Souza" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rsvp-phone">WhatsApp para Contato *</label>
+              <input type="tel" id="rsvp-phone" class="form-input" placeholder="(83) 99999-9999" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Você estará presente? *</label>
+              <div class="radio-presence-group">
+                <label class="radio-presence-card">
+                  <input type="radio" name="presence" value="Sim, com certeza estarei lá!" checked>
+                  <div class="radio-presence-box">
+                    <i data-lucide="check-circle" style="width: 18px; height: 18px; color: var(--olive-600);"></i>
+                    <span>Sim, com certeza!</span>
+                  </div>
+                </label>
+                <label class="radio-presence-card">
+                  <input type="radio" name="presence" value="Infelizmente não poderei comparecer">
+                  <div class="radio-presence-box">
+                    <i data-lucide="x-circle" style="width: 18px; height: 18px; color: #9E3A3A;"></i>
+                    <span>Não poderei ir</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Quantidade de Pessoas (Incluindo você)</label>
+              <div class="counter-wrapper">
+                <button type="button" class="counter-btn" id="btn-guest-minus">-</button>
+                <span class="counter-display" id="display-guests-count">1</span>
+                <button type="button" class="counter-btn" id="btn-guest-plus">+</button>
+                <input type="hidden" id="input-guests-count" value="1">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rsvp-dietary">Restrição Alimentar</label>
+              <select id="rsvp-dietary" class="form-select">
+                <option value="Nenhuma restrição">Nenhuma restrição</option>
+                <option value="Vegetariano">Vegetariano</option>
+                <option value="Vegano">Vegano</option>
+                <option value="Sem Glúten (Celíaco)">Sem Glúten (Celíaco)</option>
+                <option value="Intolerante a Lactose">Intolerante a Lactose</option>
+                <option value="Outra (especificar na mensagem)">Outra restrição específica</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rsvp-message">Recado Carinhoso para os Noivos (Opcional)</label>
+              <textarea id="rsvp-message" class="form-textarea" rows="3" placeholder="Deixe uma mensagem que guardaremos no coração..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px; padding: 16px 28px; font-size: 0.95rem;">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i> Enviar Confirmação via WhatsApp
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIA DE RIO TINTO & HOSPEDAGEM -->
+    <section class="section" id="dicas">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Para Nossos Convidados de Fora</span>
+          <h2 class="section-title">Dicas Úteis de Rio Tinto - PB</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="tips-grid">
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">🏨</div>
+            <h3 class="tip-title">Hospedagem &amp; Pousadas</h3>
+            <p class="tip-desc">Opções confortáveis no Centro Histórico de Rio Tinto, em Mamanguape (a 10 min) e pousadas charmosas na Baía da Traição para quem desejar esticar o fim de semana.</p>
+          </div>
+
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">💇‍♀️</div>
+            <h3 class="tip-title">Salões de Beleza &amp; Make</h3>
+            <p class="tip-desc">Para madrinhas e convidadas, recomendamos agendamento prévio nos melhores salões locais e serviços de penteado/make a domicílio em Rio Tinto.</p>
+          </div>
+
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">🌴</div>
+            <h3 class="tip-title">Turismo no Litoral Norte</h3>
+            <p class="tip-desc">Aproveite a viagem para conhecer as famosas falésias coloridas, as praias de Baía da Traição, Barra de Camaratuba e a rica história da arquitetura fabril de Rio Tinto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-section">
+      <div class="container">
+        <img src="assets/icons/monogram.svg" alt="Monograma E & G" class="footer-monogram">
+        <h2 class="footer-text">Eluisa &amp; Gabriel</h2>
+        <p class="footer-sub">17 de Janeiro de 2027 • Capela Sagrada Família &amp; Brizola Halls • Bairro de Salema, Rio Tinto - PB</p>
+        <p style="font-size: 0.75rem; color: var(--olive-400); margin-top: 25px;">Feito com muito amor para o nosso grande dia.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Scripts do Convite -->
+  <script src="js/three-scene.js"></script>
+  <script src="js/music-player.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/rsvp.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/envelope.js"></script>
+
+  <!-- Inicializa Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
