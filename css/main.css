@@ -380,23 +380,93 @@ body {
 
 /* Responsividade Geral */
 @media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
   .section {
     padding: 60px 0;
   }
+  .section-header {
+    margin-bottom: 35px;
+  }
+  .section-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 3.5px;
+    margin-bottom: 6px;
+  }
   .section-title {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 7vw, 2.4rem);
+    letter-spacing: 0.5px;
+  }
+  .botanical-divider {
+    width: 180px;
+    height: 26px;
+    margin: 10px auto 0;
+  }
+  .hero-section {
+    padding: 70px 16px 40px;
+    min-height: 100vh;
   }
   .hero-monogram-img {
-    width: 140px;
+    width: 120px;
+    margin-bottom: 18px;
+  }
+  .hero-names {
+    font-size: clamp(2.3rem, 9.2vw, 3.4rem);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero-names .ampersand {
+    font-size: clamp(2.4rem, 9.8vw, 3.5rem);
+    margin: 0 6px;
+  }
+  .hero-date-banner {
+    margin: 16px auto 20px;
+    padding: 8px 18px;
+    font-size: 0.78rem;
+    letter-spacing: 3.5px;
+    display: inline-block;
+    max-width: 90vw;
+  }
+  .hero-venue-summary {
+    font-size: 1.15rem;
+    line-height: 1.4;
+    margin-bottom: 24px;
   }
   .blessing-card {
-    padding: 28px 20px;
+    padding: 26px 18px;
+    margin-bottom: 40px;
+    border-radius: 16px;
   }
   .blessing-verse {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .blessing-reference {
+    font-size: 0.78rem;
+    letter-spacing: 2px;
   }
   .btn {
     width: 100%;
     padding: 14px 20px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-monogram-img {
+    width: 105px;
+  }
+  .hero-names {
+    font-size: 2.1rem;
+  }
+  .hero-date-banner {
+    font-size: 0.70rem;
+    letter-spacing: 2px;
+    padding: 6px 12px;
+  }
+  .section-title {
+    font-size: 1.85rem;
   }
 }
