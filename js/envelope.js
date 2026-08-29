@@ -39,12 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
       envelopeWrapper.classList.add('opening');
     }
 
-    // Revela suavemente o convite principal quando a carta terminar de subir (aos 4.2s)
+    // Revela suavemente o convite principal, a barra de atalhos e o widget de música quando a carta terminar de subir (aos 4.2s)
     setTimeout(() => {
       if (mainInvitation) {
         mainInvitation.classList.add('visible');
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
+      const floatingNavbar = document.getElementById('floating-navbar');
+      const musicWidget = document.getElementById('music-player-widget');
+      if (floatingNavbar) floatingNavbar.classList.add('visible');
+      if (musicWidget) musicWidget.classList.add('visible');
     }, 4200);
 
     // Desvanece a tela do envelope e libera a rolagem (aos 4.8s)
