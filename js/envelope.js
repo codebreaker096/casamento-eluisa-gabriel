@@ -85,33 +85,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const originX = (rect.left + rect.width / 2) / window.innerWidth;
       const originY = (rect.top + rect.height / 2) / window.innerHeight;
 
-      // Rajada inicial no centro do lacre
+      // Rajada inicial de pétalas brancas e ouro
       confetti({
-        particleCount: 55,
-        spread: 75,
+        particleCount: 65,
+        spread: 80,
         origin: { x: originX, y: originY },
-        colors: ['#D4AF37', '#F0DC9C', '#4D5D43', '#7E9271', '#FAF7F2'],
-        ticks: 240,
-        gravity: 0.75,
-        scalar: 1.15,
+        colors: ['#FFFFFF', '#FAF7F2', '#F5EFEB', '#D4AF37', '#E8DCC4'],
+        ticks: 260,
+        gravity: 0.70,
+        scalar: 1.25,
         disableForReducedMotion: true
       });
 
-      // Brilho secundário de celebração
+      // Chuva secundária de pétalas brancas
       setTimeout(() => {
         confetti({
-          particleCount: 35,
+          particleCount: 40,
           angle: 60,
-          spread: 60,
+          spread: 65,
           origin: { x: 0.15, y: 0.55 },
-          colors: ['#D4AF37', '#4D5D43', '#DFBE76']
+          colors: ['#FFFFFF', '#FAF7F2', '#D4AF37', '#E8DCC4']
         });
         confetti({
-          particleCount: 35,
+          particleCount: 40,
           angle: 120,
-          spread: 60,
+          spread: 65,
           origin: { x: 0.85, y: 0.55 },
-          colors: ['#D4AF37', '#4D5D43', '#DFBE76']
+          colors: ['#FFFFFF', '#FAF7F2', '#D4AF37', '#E8DCC4']
         });
       }, 600);
     }

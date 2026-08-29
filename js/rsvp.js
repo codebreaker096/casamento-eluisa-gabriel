@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       existing.push(rsvpData);
       localStorage.setItem('eluisa_gabriel_rsvp', JSON.stringify(existing));
 
-      // Chuva de confetes celebratória
+      // Chuva de pétalas de rosas brancas e ouro
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 90,
-          spread: 80,
+          particleCount: 95,
+          spread: 85,
           origin: { y: 0.6 },
-          colors: ['#D4AF37', '#4D5D43', '#FFFFFF', '#627556']
+          colors: ['#FFFFFF', '#FAF7F2', '#F5EFEB', '#D4AF37', '#E8C87A']
         });
       }
 

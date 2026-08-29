@@ -1,6 +1,6 @@
 /**
  * CENÁRIO 3D WEBGL COM THREE.JS
- * Efeitos: Folhas de Oliveira 3D Flutuantes & Partículas de Poeira Dourada
+ * Efeitos: Pétalas de Rosas Brancas e Rosas em 3D Flutuantes & Partículas de Brilho Pérola e Ouro
  */
 
 class Wedding3DScene {
@@ -18,31 +18,34 @@ class Wedding3DScene {
     this.container.appendChild(this.renderer.domElement);
 
     this.mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    this.leaves = [];
+    this.petals = [];
     this.clock = new THREE.Clock();
 
     this.initLights();
-    this.createGoldDustParticles();
-    this.createOliveLeaves();
+    this.createPearlAndGoldDust();
+    this.createWhiteRosePetals();
     this.bindEvents();
     this.animate();
   }
 
   initLights() {
-    const ambientLight = new THREE.AmbientLight(0xfffaed, 1.2);
+    // Luz ambiente suave e pura
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.3);
     this.scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xd4af37, 1.8);
+    // Luz direcional dourada solar
+    const sunLight = new THREE.DirectionalLight(0xFDF8EE, 1.6);
     sunLight.position.set(20, 40, 30);
     this.scene.add(sunLight);
 
-    const pointLight = new THREE.PointLight(0x627556, 1.5, 50);
+    // Ponto de luz suave marfim
+    const pointLight = new THREE.PointLight(0xF5EFEB, 1.4, 60);
     pointLight.position.set(-15, -10, 15);
     this.scene.add(pointLight);
   }
 
-  createGoldDustParticles() {
-    const particleCount = 140;
+  createPearlAndGoldDust() {
+    const particleCount = 130;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const scales = new Float32Array(particleCount);
@@ -57,16 +60,16 @@ class Wedding3DScene {
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
 
-    // Canvas de partícula cintilante
+    // Partícula cintilante pérola & ouro
     const canvas = document.createElement('canvas');
     canvas.width = 32;
     canvas.height = 32;
     const ctx = canvas.getContext('2d');
     const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    grad.addColorStop(0, 'rgba(255, 235, 160, 1)');
-    grad.addColorStop(0.3, 'rgba(212, 175, 55, 0.8)');
-    grad.addColorStop(0.8, 'rgba(180, 140, 40, 0.2)');
-    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(0.3, 'rgba(245, 235, 210, 0.9)');
+    grad.addColorStop(0.7, 'rgba(212, 175, 55, 0.3)');
+    grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.arc(16, 16, 16, 0, Math.PI * 2);
@@ -74,62 +77,93 @@ class Wedding3DScene {
 
     const texture = new THREE.CanvasTexture(canvas);
     const material = new THREE.PointsMaterial({
-      size: 1.2,
+      size: 1.1,
       map: texture,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
 
-    this.goldDust = new THREE.Points(geometry, material);
-    this.scene.add(this.goldDust);
+    this.pearlDust = new THREE.Points(geometry, material);
+    this.scene.add(this.pearlDust);
   }
 
-  createOliveLeaves() {
-    // Geometria de Folha de Oliveira realista
-    const leafShape = new THREE.Shape();
-    leafShape.moveTo(0, -1.8);
-    leafShape.bezierCurveTo(0.6, -1.0, 0.8, 0.8, 0, 2.2);
-    leafShape.bezierCurveTo(-0.8, 0.8, -0.6, -1.0, 0, -1.8);
+  // Criação da geometria curva realista de pétalas de rosas brancas
+  createWhiteRosePetals() {
+    // 1. Curva orgânica da pétala de rosa
+    const petalShape = new THREE.Shape();
+    petalShape.moveTo(0, -1.4);
+    petalShape.bezierCurveTo(1.1, -0.6, 1.3, 0.9, 0, 1.8);
+    petalShape.bezierCurveTo(-1.3, 0.9, -1.1, -0.6, 0, -1.4);
 
     const extrudeSettings = {
       steps: 1,
-      depth: 0.05,
+      depth: 0.04,
       bevelEnabled: true,
-      bevelThickness: 0.04,
-      bevelSize: 0.04,
-      bevelSegments: 2
+      bevelThickness: 0.03,
+      bevelSize: 0.03,
+      bevelSegments: 3
     };
 
-    const geometry = new THREE.ExtrudeGeometry(leafShape, extrudeSettings);
-    geometry.center();
+    const petalGeometry = new THREE.ExtrudeGeometry(petalShape, extrudeSettings);
+    petalGeometry.center();
 
-    // Materiais verde oliva e verde oliva sálvia
-    const oliveMaterial = new THREE.MeshStandardMaterial({
-      color: 0x4D5D43,
-      roughness: 0.4,
-      metalness: 0.2,
+    // Materiais de seda branca, marfim e pérola
+    const whitePetalMaterial = new THREE.MeshStandardMaterial({
+      color: 0xFFFFFF,
+      roughness: 0.3,
+      metalness: 0.05,
       side: THREE.DoubleSide
     });
 
-    const sageMaterial = new THREE.MeshStandardMaterial({
-      color: 0x627556,
-      roughness: 0.35,
-      metalness: 0.25,
+    const ivoryPetalMaterial = new THREE.MeshStandardMaterial({
+      color: 0xF9F6F0,
+      roughness: 0.32,
+      metalness: 0.08,
       side: THREE.DoubleSide
     });
 
-    const leafCount = 28;
-    for (let i = 0; i < leafCount; i++) {
-      const mesh = new THREE.Mesh(geometry, Math.random() > 0.5 ? oliveMaterial : sageMaterial);
+    const champagnePetalMaterial = new THREE.MeshStandardMaterial({
+      color: 0xF5EFEB,
+      roughness: 0.28,
+      metalness: 0.1,
+      side: THREE.DoubleSide
+    });
+
+    const materials = [whitePetalMaterial, ivoryPetalMaterial, champagnePetalMaterial];
+
+    // 2. Cria 32 pétalas individuais e botões de rosas brancas flutuantes
+    const petalCount = 32;
+    for (let i = 0; i < petalCount; i++) {
+      const selectedMat = materials[i % materials.length];
+      
+      // Criação de pétala única ou rosa sobreposta
+      const isFullRose = i % 5 === 0;
+      let mesh;
+
+      if (isFullRose) {
+        // Mini Rosa Branca composta por 3 pétalas entrelaçadas
+        const roseGroup = new THREE.Group();
+        for (let p = 0; p < 3; p++) {
+          const petal = new THREE.Mesh(petalGeometry, selectedMat);
+          petal.rotation.z = (p * Math.PI * 2) / 3;
+          petal.rotation.x = 0.3;
+          petal.scale.set(0.7, 0.7, 0.7);
+          roseGroup.add(petal);
+        }
+        mesh = roseGroup;
+      } else {
+        // Pétala individual de rosa branca
+        mesh = new THREE.Mesh(petalGeometry, selectedMat);
+      }
       
       mesh.position.set(
-        (Math.random() - 0.5) * 45,
-        (Math.random() - 0.5) * 45,
-        (Math.random() - 0.5) * 20
+        (Math.random() - 0.5) * 48,
+        (Math.random() - 0.5) * 48,
+        (Math.random() - 0.5) * 22
       );
 
-      const scale = Math.random() * 0.6 + 0.5;
+      const scale = Math.random() * 0.5 + 0.55;
       mesh.scale.set(scale, scale, scale);
 
       mesh.rotation.set(
@@ -139,15 +173,16 @@ class Wedding3DScene {
       );
 
       mesh.userData = {
-        speedY: (Math.random() * 0.03 + 0.01) * -1,
-        speedRotX: (Math.random() - 0.5) * 0.02,
-        speedRotY: (Math.random() - 0.5) * 0.02,
-        speedRotZ: (Math.random() - 0.5) * 0.02,
-        windFactor: Math.random() * 0.5 + 0.5,
+        speedY: (Math.random() * 0.025 + 0.012) * -1,
+        speedRotX: (Math.random() - 0.5) * 0.018,
+        speedRotY: (Math.random() - 0.5) * 0.022,
+        speedRotZ: (Math.random() - 0.5) * 0.015,
+        swaySpeed: Math.random() * 0.8 + 0.6,
+        swayAmplitude: Math.random() * 1.8 + 1.0,
         initialX: mesh.position.x
       };
 
-      this.leaves.push(mesh);
+      this.petals.push(mesh);
       this.scene.add(mesh);
     }
   }
@@ -156,8 +191,8 @@ class Wedding3DScene {
     window.addEventListener('resize', () => this.onResize());
     
     window.addEventListener('mousemove', (e) => {
-      this.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 4;
-      this.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 4;
+      this.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 3.5;
+      this.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 3.5;
     });
 
     // Suporte a Giroscópio para Mobile
@@ -189,26 +224,26 @@ class Wedding3DScene {
     this.camera.position.y = -this.mouse.y;
     this.camera.lookAt(0, 0, 0);
 
-    // Animação das partículas de poeira dourada
-    if (this.goldDust) {
-      this.goldDust.rotation.y = elapsedTime * 0.03;
-      this.goldDust.rotation.x = Math.sin(elapsedTime * 0.02) * 0.1;
+    // Partículas pérola
+    if (this.pearlDust) {
+      this.pearlDust.rotation.y = elapsedTime * 0.025;
+      this.pearlDust.rotation.x = Math.sin(elapsedTime * 0.02) * 0.08;
     }
 
-    // Animação e flutuação das folhas de oliveira
-    this.leaves.forEach((leaf) => {
-      leaf.position.y += leaf.userData.speedY;
-      leaf.position.x = leaf.userData.initialX + Math.sin(elapsedTime * leaf.userData.windFactor) * 1.5;
+    // Flutuação realista e suave das pétalas de rosas brancas
+    this.petals.forEach((petal) => {
+      petal.position.y += petal.userData.speedY;
+      petal.position.x = petal.userData.initialX + Math.sin(elapsedTime * petal.userData.swaySpeed) * petal.userData.swayAmplitude;
 
-      leaf.rotation.x += leaf.userData.speedRotX;
-      leaf.rotation.y += leaf.userData.speedRotY;
-      leaf.rotation.z += leaf.userData.speedRotZ;
+      petal.rotation.x += petal.userData.speedRotX;
+      petal.rotation.y += petal.userData.speedRotY;
+      petal.rotation.z += petal.userData.speedRotZ;
 
-      // Reposiciona folha no topo ao atingir o limite inferior
-      if (leaf.position.y < -25) {
-        leaf.position.y = 25;
-        leaf.position.x = (Math.random() - 0.5) * 45;
-        leaf.userData.initialX = leaf.position.x;
+      // Quando a pétala atinge o fundo, reaparece suavemente no topo
+      if (petal.position.y < -26) {
+        petal.position.y = 26;
+        petal.position.x = (Math.random() - 0.5) * 48;
+        petal.userData.initialX = petal.position.x;
       }
     });
 
