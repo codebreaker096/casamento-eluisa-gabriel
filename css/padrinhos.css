@@ -7,6 +7,8 @@
 .padrinho-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  align-self: center;
   gap: 8px;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(77, 93, 67, 0.28) 100%);
   border: 1px solid var(--gold-500);
@@ -16,10 +18,13 @@
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-  margin-bottom: 14px;
+  margin: 0 auto 16px auto;
+  text-align: center;
+  width: fit-content;
+  max-width: 95%;
 }
 
 /* 2. CARTA DE HONRA & CONVITE SOLENE */

@@ -295,13 +295,20 @@ body {
   position: relative;
   z-index: 2;
   max-width: 780px;
+  width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-monogram-img {
+  display: block;
   width: 170px;
   height: auto;
-  margin: 0 auto 24px;
+  margin: 0 auto 24px auto;
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.06));
   animation: floatSubtle 4s ease-in-out infinite alternate;
 }
