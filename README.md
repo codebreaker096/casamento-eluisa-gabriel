@@ -25,7 +25,17 @@
   - *Cores Não Recomendadas*: Azul e Marsala.
   - *Paleta Sugerida para Convidadas*: Champagne, Nude/Areia, Rosa Chá, Lavanda Claro, Pêssego e Amarelo Suave.
 - **Confirmação de Presença (RSVP)**: Formulário inteligente com contador de acompanhantes, restrições alimentares e envio automático formatado direto para o WhatsApp do noivo **Gabriel Alexandre da Silva ((83) 98914-6965)**.
-- **Dicas Úteis de Rio Tinto - PB**: Hospedagem, salões de beleza/penteado e turismo no Litoral Norte paraibano.
+- **👑 Endpoint Exclusivo para Padrinhos & Madrinhas (`/padrinhos.html` / `/padrinho.html`)**:
+  - *Envelope & Lacre de Cera de Honra*: Apresentação solene para padrinhos e madrinhas.
+  - *Carta de Homenagem Emocionante*: Mensagem especial com o pedido solene para o altar.
+  - *Manual Completo dos Padrinhos*:
+    - **Madrinhas**: Vestido longo Verde Oliva (paleta com 4 tonalidades, tecidos sugeridos, calçados e joias).
+    - **Padrinhos**: **Terno Preto Clássico**, camisa social branca lisa, **Gravata Oficial do Casamento (enviada no Kit Físico da Caixinha)**, sapato/cinto preto e flor de lapela botânica (boutonnière).
+    - **Kit Físico da Caixinha dos Padrinhos**: Gravata oficial dos padrinhos, mimo/corsage da madrinha, convite de luxo com lacre de cera, manual impresso, doces finos nupciais, vela aromática e carta de agradecimento.
+  - *Missões dos Padrinhos*: Checklist de honra com o papel sagrado de estar ao lado dos noivos.
+  - *Cronograma com Horário Especial*: Chegada antecipada às **09:15h** para cortejo e lapela, ensaio fotográfico às 11:30h e brinde exclusivo.
+  - *Aceite Oficial (RSVP Padrinhos)*: Resposta de honra enviada formatada diretamente para o WhatsApp de Gabriel.
+- **Dicas Úteis de Rio Tinto - PB**: Hospedagem, barbearias, salões de beleza/penteado e turismo no Litoral Norte paraibano.
 
 ---
 

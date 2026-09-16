@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Eluisa & Gabriel — Convite Especial aos Nossos Padrinhos</title>
+  <meta name="description" content="Convite oficial e Manual dos Padrinhos e Madrinhas de Casamento de Eluisa e Gabriel. 17 de Janeiro de 2027 na Capela Sagrada Família e Brizola Halls, Rio Tinto - PB.">
+  
+  <!-- Favicon / Ícone -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/monogram.svg">
+  
+  <!-- CSS do Projeto (com versionamento anti-cache) -->
+  <link rel="stylesheet" href="css/main.css?v=5.0">
+  <link rel="stylesheet" href="css/envelope.css?v=5.0">
+  <link rel="stylesheet" href="css/components.css?v=5.0">
+  <link rel="stylesheet" href="css/padrinhos.css?v=5.0">
+
+  <!-- Three.js para Efeitos Gráficos 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- 1. CENÁRIO 3D WEBGL (THREE.JS) -->
+  <div id="webgl-canvas-container"></div>
+
+  <!-- 2. ENVELOPE 3D COM LACRE DE CERA INTERATIVO (EDIÇÃO PADRINHOS) -->
+  <div id="envelope-screen">
+    <div class="envelope-bg-glow"></div>
+    
+    <div class="envelope-header-text">
+      <div class="padrinho-badge">
+        <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--gold-400);"></i>
+        <span>Convite de Honra</span>
+      </div>
+      <h3>Um convite especial para quem tem um lugar único em nosso coração</h3>
+      <p>Eluisa &amp; Gabriel • Capela Sagrada Família &amp; Brizola Halls</p>
+    </div>
+
+    <div class="envelope-wrapper" id="envelope-wrapper">
+      <div class="envelope-box">
+        <!-- Forro Interno com Arte Botânica -->
+        <div class="envelope-liner"></div>
+        
+        <!-- Cartão Teaser dentro do Envelope -->
+        <div class="envelope-card-preview" id="envelope-card-preview">
+          <img src="assets/icons/monogram.svg" alt="Monograma E & G" class="card-monogram">
+          <div class="card-names">Eluisa &amp; Gabriel</div>
+          <div style="font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-600); font-weight: 700; margin-top: 4px;">
+            ✦ Nossos Padrinhos de Casamento ✦
+          </div>
+          <div class="card-date">17 · 01 · 2027 • 10:00h</div>
+        </div>
+
+        <!-- Abas Laterais e Inferior em Vetor SVG Nítido -->
+        <div class="envelope-flaps-container">
+          <svg class="flap-svg-layer" viewBox="0 0 360 240" preserveAspectRatio="none">
+            <!-- Aba Esquerda -->
+            <polygon points="0,0 0,240 180,120" fill="#323E2C" />
+            <!-- Aba Direita -->
+            <polygon points="360,0 360,240 180,120" fill="#354230" />
+            <!-- Aba Inferior -->
+            <polygon points="0,240 360,240 180,110" fill="#283223" />
+            <!-- Borda Dourada sutil -->
+            <polyline points="0,240 180,110 360,240" fill="none" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <!-- Aba Superior Articulada em 3D -->
+        <div class="envelope-top-flap-wrapper" id="envelope-top-flap">
+          <svg class="envelope-top-flap-svg" viewBox="0 0 360 240" preserveAspectRatio="none">
+            <polygon points="0,0 360,0 180,130" fill="#43523B" />
+            <polyline points="0,0 180,130 360,0" fill="none" stroke="rgba(212, 175, 55, 0.5)" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <!-- Lacre de Cera em Verde Oliva e Dourado -->
+        <div class="wax-seal-container" id="wax-seal-btn" title="Clique para romper o lacre e abrir o convite de padrinhos">
+          <img src="assets/icons/wax_seal.svg" alt="Lacre de Cera E & G" class="wax-seal-img">
+        </div>
+      </div>
+    </div>
+
+    <div class="envelope-action-hint" id="envelope-hint-btn">
+      <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+      <span>Toque no lacre para abrir o seu convite</span>
+    </div>
+  </div>
+
+  <!-- 3. WIDGET FLUTUANTE DE ÁUDIO -->
+  <div class="music-player-widget" id="music-player-widget" title="Tocar / Pausar melodia clássica">
+    <button class="music-btn-play" id="music-toggle-btn" aria-label="Tocar ou pausar música">
+      <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+    </button>
+    <div class="music-info">
+      <span class="music-title" id="music-title">Arranjo Nupcial dos Padrinhos</span>
+      <span class="music-author" id="music-author">Harpa, Violoncelo &amp; Piano</span>
+    </div>
+    <div class="visualizer-bars" id="visualizer-bars">
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+      <div class="visualizer-bar"></div>
+    </div>
+  </div>
+
+  <!-- 4. BARRA DE NAVEGAÇÃO FLUTUANTE -->
+  <nav class="floating-navbar" id="floating-navbar">
+    <a href="#carta"><i data-lucide="heart-handshake" style="width: 14px; height: 14px;"></i> <span>Carta</span></a>
+    <a href="#manual"><i data-lucide="palette" style="width: 14px; height: 14px;"></i> <span>Manual</span></a>
+    <a href="#missoes"><i data-lucide="check-square" style="width: 14px; height: 14px;"></i> <span>Missões</span></a>
+    <a href="#cronograma"><i data-lucide="clock" style="width: 14px; height: 14px;"></i> <span>Horários</span></a>
+    <a href="#locais"><i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> <span>Locais</span></a>
+    <a href="#rsvp" class="nav-rsvp-btn"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i> <span>Aceite</span></a>
+  </nav>
+
+  <!-- 5. CONTEÚDO PRINCIPAL DO CONVITE DOS PADRINHOS -->
+  <main id="main-invitation">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="inicio">
+      <div class="hero-botanical-frame"></div>
+      
+      <div class="hero-content">
+        <img src="assets/icons/monogram.svg" alt="Monograma E & G Oficial" class="hero-monogram-img">
+        
+        <div class="padrinho-badge">
+          <i data-lucide="award" style="width: 14px; height: 14px; color: var(--gold-500);"></i>
+          <span>Convite de Honra aos Nossos Padrinhos</span>
+        </div>
+        
+        <span class="section-subtitle">Com a bênção de Deus, escolhemos você para estar no altar</span>
+        
+        <h1 class="hero-names">
+          Eluisa <span class="ampersand">&amp;</span> Gabriel
+        </h1>
+
+        <div class="hero-date-banner">
+          17 de Janeiro de 2027 • 10:00 Horas
+        </div>
+
+        <p class="hero-venue-summary">
+          Capela Sagrada Família &amp; Brizola Halls — Bairro de Salema, Rio Tinto - PB<br>
+          <strong style="color: var(--gold-600); font-size: 0.92rem;">⏰ Chegada dos Padrinhos às 09:15h para Alinhamento &amp; Fotos</strong>
+        </p>
+
+        <!-- Contagem Regressiva -->
+        <div class="countdown-container">
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-days">--</span>
+            <span class="countdown-label">Dias</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-hours">--</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-minutes">--</span>
+            <span class="countdown-label">Minutos</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="cd-seconds">--</span>
+            <span class="countdown-label">Segundos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARTA DE HONRA & HOMENAGEM -->
+    <section class="section" id="carta">
+      <div class="container">
+        
+        <div class="luxury-card blessing-card" style="margin-bottom: 30px;">
+          <p class="blessing-verse">
+            “Melhor é serem dois do que um... Porque se um cair, o outro levanta o seu companheiro.”
+          </p>
+          <span class="blessing-reference">Eclesiastes 4:9-10</span>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="padrinho-letter-card">
+          <div class="padrinho-badge">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--gold-600);"></i>
+            <span>Uma Pergunta de Coração</span>
+          </div>
+          
+          <h2 class="padrinho-letter-title">
+            Você aceita ser nosso(a) Padrinho / Madrinha de Casamento?
+          </h2>
+          
+          <p class="padrinho-letter-text">
+            Existem pessoas que marcam nossa história de maneira única. Pessoas com quem dividimos risos, confidências, orações e momentos que guardamos para sempre na memória. Quando começamos a planejar o dia mais sagrado de nossas vidas, uma certeza aqueceu nossos corações: <strong>não poderíamos subir ao altar sem você ao nosso lado</strong>.
+          </p>
+          
+          <p class="padrinho-letter-text">
+            Ser padrinho e madrinha é muito mais do que testemunhar uma assinatura; é ser porto seguro, conselheiro, guardião da nossa fé e incentivador do nosso amor em cada nova fase que iremos construir diante de Deus.
+          </p>
+
+          <p class="padrinho-letter-text">
+            Sua presença no altar da <strong>Capela Sagrada Família</strong> e na celebração do <strong>Brizola Halls</strong> tornará o nosso "sim" verdadeiramente completo e inesquecível.
+          </p>
+
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+
+          <span class="padrinho-letter-signature">
+            Eluisa &amp; Gabriel
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANUAL DOS PADRINHOS (DRESS CODE & GUIA VISUAL) -->
+    <section class="section" id="manual">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Guia Oficial de Elegância do Altar</span>
+          <h2 class="section-title">Manual dos Padrinhos &amp; Madrinhas</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+          <p style="max-width: 680px; margin: 10px auto 0; font-size: 0.95rem; color: var(--text-secondary);">
+            Preparamos com muito carinho todas as orientações para que o cortejo no altar da Capela Sagrada Família fique harmônico, imponente e inesquecível nas fotografias oficiais.
+          </p>
+        </div>
+
+        <div class="manual-roles-grid">
+          
+          <!-- CARD DAS MADRINHAS -->
+          <div class="role-manual-card">
+            <div class="role-manual-header madrinha-header">
+              <div class="role-manual-icon">
+                <i data-lucide="gem" style="width: 24px; height: 24px;"></i>
+              </div>
+              <h3 class="role-manual-title">Para as Madrinhas</h3>
+              <span class="role-manual-subtitle">Paleta Exclusiva Verde Oliva</span>
+            </div>
+
+            <div class="role-manual-body">
+              
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="palette" style="width: 16px; height: 16px;"></i>
+                  <span>Cor Oficial do Vestido</span>
+                </div>
+                <p class="role-spec-desc">
+                  <strong>Verde Oliva</strong> em tons nobres, refinados e elegantes para harmonizar com a luz da manhã (10:00h).
+                </p>
+                <div class="madrinha-shades-grid">
+                  <div class="shade-box">
+                    <div class="shade-circle" style="background-color: #4D5D43;"></div>
+                    <span class="shade-title">Oliva Nobre</span>
+                  </div>
+                  <div class="shade-box">
+                    <div class="shade-circle" style="background-color: #627556;"></div>
+                    <span class="shade-title">Sálvia Intenso</span>
+                  </div>
+                  <div class="shade-box">
+                    <div class="shade-circle" style="background-color: #3E4B37;"></div>
+                    <span class="shade-title">Oliva Clássico</span>
+                  </div>
+                  <div class="shade-box">
+                    <div class="shade-circle" style="background-color: #5A694F;"></div>
+                    <span class="shade-title">Oliva Suave</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="scissors" style="width: 16px; height: 16px;"></i>
+                  <span>Modelo &amp; Comprimento</span>
+                </div>
+                <p class="role-spec-desc">
+                  Vestido <strong>longo até os pés</strong>, liso (sem estampas chamativas). O modelo e decote são de livre escolha da madrinha, prezando por elegância e conforto no altar.
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="sparkle" style="width: 16px; height: 16px;"></i>
+                  <span>Tecidos Sugeridos</span>
+                </div>
+                <p class="role-spec-desc">
+                  Tecidos nobres, fluidos e leves: <em>crepe de seda, chiffon, musseline, cetim fosco ou georgette</em>.
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+                  <span>Calçado &amp; Acessórios</span>
+                </div>
+                <p class="role-spec-desc">
+                  Sandálias ou sapatos em tons <strong>Nude, Dourado, Champanhe ou Metalizado</strong>. Joias delicadas em ouro, folheados ou pérolas.
+                </p>
+              </div>
+
+              <div class="role-spec-item" style="background: rgba(194, 99, 75, 0.08); padding: 12px; border-radius: 8px; border: 1px dashed rgba(194, 99, 75, 0.3);">
+                <div class="role-spec-label" style="color: #9E3A3A;">
+                  <i data-lucide="alert-triangle" style="width: 16px; height: 16px; color: #9E3A3A;"></i>
+                  <span>Cores Não Permitidas</span>
+                </div>
+                <p class="role-spec-desc" style="font-size: 0.84rem; color: #7A2828;">
+                  Por favor, não utilizar <strong>Branco/Off-White</strong> (exclusivo da Noiva), <strong>Terracota</strong> (exclusivo das Mães), <strong>Preto, Azul</strong> ou <strong>Marsala</strong>.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CARD DOS PADRINHOS -->
+          <div class="role-manual-card">
+            <div class="role-manual-header padrinho-header">
+              <div class="role-manual-icon">
+                <i data-lucide="user-check" style="width: 24px; height: 24px;"></i>
+              </div>
+              <h3 class="role-manual-title">Para os Padrinhos</h3>
+              <span class="role-manual-subtitle">Traje Oficial dos Padrinhos / Altar</span>
+            </div>
+
+            <div class="role-manual-body">
+              
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="shirt" style="width: 16px; height: 16px;"></i>
+                  <span>Terno / Costume Social</span>
+                </div>
+                <p class="role-spec-desc">
+                  <strong>Terno Preto Clássico</strong> (Paletó e calça pretos). Corte alinhado, moderno e elegante, garantindo a imponência e o respeito à solenidade do altar.
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="sun" style="width: 16px; height: 16px;"></i>
+                  <span>Camisa Social</span>
+                </div>
+                <p class="role-spec-desc">
+                  Camisa social <strong>Branca lisa</strong> de mangas compridas, com colarinho rígido e estruturado para perfeito caimento com a gravata.
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="award" style="width: 16px; height: 16px;"></i>
+                  <span>Gravata Oficial (Kit Físico)</span>
+                </div>
+                <p class="role-spec-desc">
+                  <strong>Gravata Oficial enviada no Kit Físico da Caixinha</strong>. Uso indispensável no altar para padronização impecável de todos os padrinhos.
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="flower" style="width: 16px; height: 16px;"></i>
+                  <span>Flor de Lapela (Boutonnière)</span>
+                </div>
+                <p class="role-spec-desc">
+                  Será entregue com carinho pela assessoria na chegada à Capela Sagrada Família às 09:15h (raminho de oliveira botânica).
+                </p>
+              </div>
+
+              <div class="role-spec-item">
+                <div class="role-spec-label">
+                  <i data-lucide="footprints" style="width: 16px; height: 16px;"></i>
+                  <span>Sapato &amp; Cinto</span>
+                </div>
+                <p class="role-spec-desc">
+                  Sapato social em couro <strong>Preto polido</strong> com cinto social preto combinando. Meias sociais pretas.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- MIMO & KIT FÍSICO DOS PADRINHOS -->
+        <div class="gift-padrinho-box">
+          <div class="padrinho-badge" style="background: rgba(212, 175, 55, 0.18); color: var(--gold-300);">
+            <i data-lucide="gift" style="width: 14px; height: 14px;"></i>
+            <span>Kit Físico Especial</span>
+          </div>
+          <h3>O Que Acompanha a Sua Caixinha de Padrinho &amp; Madrinha</h3>
+          <p class="gift-box-intro">
+            Preparamos cada caixinha à mão com itens pensados exclusivamente para honrar e preparar vocês para estarem ao nosso lado no altar:
+          </p>
+          
+          <div class="gift-box-items-grid">
+            
+            <!-- Item 1: Gravata -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="award" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">Para o Padrinho</span>
+              </div>
+              <h4 class="gift-item-name">Gravata Oficial do Casamento</h4>
+              <p class="gift-item-desc">Gravata exclusiva para o padrinho usar no grande dia no altar, garantindo alinhamento e elegância.</p>
+            </div>
+
+            <!-- Item 2: Madrinha -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">Para a Madrinha</span>
+              </div>
+              <h4 class="gift-item-name">Mimo Especial &amp; Corsage</h4>
+              <p class="gift-item-desc">Semijoia / acessório delicado e mimo exclusivo dos noivos para a madrinha brilhar no grande dia.</p>
+            </div>
+
+            <!-- Item 3: Convite -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">Lembrança Oficial</span>
+              </div>
+              <h4 class="gift-item-name">Convite de Luxo &amp; Manual</h4>
+              <p class="gift-item-desc">Convite solene em papel linho texturizado com lacre de cera real e manual impresso do altar.</p>
+            </div>
+
+            <!-- Item 4: Doces -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="cookie" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">Experiência Gourmet</span>
+              </div>
+              <h4 class="gift-item-name">Doces Finos Nupciais</h4>
+              <p class="gift-item-desc">Bombons artesanais selecionados para adoçar esse convite inesquecível feito com tanto carinho.</p>
+            </div>
+
+            <!-- Item 5: Aromatizador/Vela -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="flame" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">Memória Olfativa</span>
+              </div>
+              <h4 class="gift-item-name">Vela Aromática / Essência</h4>
+              <p class="gift-item-desc">Aroma botânico suave com a identidade sensorial do casamento para perfumar sua casa.</p>
+            </div>
+
+            <!-- Item 6: Carta -->
+            <div class="gift-item-card">
+              <div class="gift-item-header">
+                <div class="gift-item-icon-box">
+                  <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+                </div>
+                <span class="gift-item-tag">De Coração</span>
+              </div>
+              <h4 class="gift-item-name">Carta de Agradecimento</h4>
+              <p class="gift-item-desc">Mensagem manuscrita com o nosso carinho e eterna gratidão por vocês fazerem parte da nossa história.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MISSÕES & PAPEL DOS PADRINHOS -->
+    <section class="section" id="missoes">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">O Seu Papel Sagrado</span>
+          <h2 class="section-title">Missões de Honra dos Padrinhos</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+          <p style="max-width: 640px; margin: 10px auto 0; font-size: 0.95rem; color: var(--text-secondary);">
+            Um pequeno guia carinhoso das missões que confiamos a vocês para o nosso grande dia:
+          </p>
+        </div>
+
+        <div class="missions-grid">
+          
+          <!-- Missão 1 -->
+          <div class="mission-card">
+            <div class="mission-number">1</div>
+            <div class="mission-icon">
+              <i data-lucide="clock" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 class="mission-title">Chegada às 09:15h</h3>
+            <p class="mission-desc">
+              Chegar 45 minutos antes na Capela Sagrada Família para colocação da lapela/corsage e organização do cortejo oficial de entrada.
+            </p>
+          </div>
+
+          <!-- Missão 2 -->
+          <div class="mission-card">
+            <div class="mission-number">2</div>
+            <div class="mission-icon">
+              <i data-lucide="shield-check" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 class="mission-title">Guardiões da Fé</h3>
+            <p class="mission-desc">
+              Orar, abençoar e interceder pela nossa união e estar sempre prontos com uma palavra de carinho e sabedoria ao longo da nossa vida.
+            </p>
+          </div>
+
+          <!-- Missão 3 -->
+          <div class="mission-card">
+            <div class="mission-number">3</div>
+            <div class="mission-icon">
+              <i data-lucide="camera" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 class="mission-title">Fotos Oficiais do Altar</h3>
+            <p class="mission-desc">
+              Participar da sessão fotográfica protocolar com os noivos no pátio e altar da capela logo após a bênção das alianças.
+            </p>
+          </div>
+
+          <!-- Missão 4 -->
+          <div class="mission-card">
+            <div class="mission-number">4</div>
+            <div class="mission-icon">
+              <i data-lucide="sparkles" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 class="mission-title">Animar &amp; Festejar</h3>
+            <p class="mission-desc">
+              Comemorar intensamente no Brizola Halls, brindar com os noivos, puxar a energia da pista de dança e curtir cada segundo!
+            </p>
+          </div>
+
+          <!-- Missão 5 -->
+          <div class="mission-card">
+            <div class="mission-number">5</div>
+            <div class="mission-icon">
+              <i data-lucide="heart-handshake" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 class="mission-title">Amizade Eterna</h3>
+            <p class="mission-desc">
+              Saber que nossa casa sempre estará de portas abertas para vocês e que seremos eternamente gratos por terem dito "SIM" ao nosso convite.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CRONOGRAMA EXCLUSIVO DOS PADRINHOS -->
+    <section class="section" id="cronograma">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Programação Especial do Altar</span>
+          <h2 class="section-title">Cronograma do Dia dos Padrinhos</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="timeline-wrapper">
+          
+          <!-- Item 1 - Destaque Padrinhos -->
+          <div class="timeline-item">
+            <div class="timeline-node" style="background: var(--gold-500); color: #FFFFFF; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);">
+              <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div class="timeline-content timeline-padrinho-highlight">
+              <span class="timeline-badge-exclusive">⭐ Horário Exclusivo dos Padrinhos</span>
+              <span class="timeline-time" style="color: var(--gold-700); font-weight: 700;">09:15 Horas (Pontual)</span>
+              <h3 class="timeline-title" style="color: var(--olive-900);">Chegada dos Padrinhos &amp; Preparação do Altar</h3>
+              <p class="timeline-desc">
+                Recepção dos padrinhos na Capela Sagrada Família, entrega das flores de lapela (boutonnière) e corsages, fotos iniciais e alinhamento dos pares para a entrada.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">09:40 Horas</span>
+              <h3 class="timeline-title">Formação do Cortejo Nupcial</h3>
+              <p class="timeline-desc">Acomodação dos convidados nos bancos e posicionamento oficial dos padrinhos na nave da capela.</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="heart" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">10:00 Horas</span>
+              <h3 class="timeline-title">A Bênção dos Votos no Altar</h3>
+              <p class="timeline-desc">Entrada dos padrinhos, entrada triunfal dos noivos, celebração religiosa do matrimônio e troca de alianças.</p>
+            </div>
+          </div>
+
+          <!-- Item 4 - Destaque Fotos -->
+          <div class="timeline-item">
+            <div class="timeline-node" style="background: var(--olive-700); color: #FFFFFF;">
+              <i data-lucide="camera" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div class="timeline-content timeline-padrinho-highlight">
+              <span class="timeline-badge-exclusive">⭐ Ensaio Oficial com os Noivos</span>
+              <span class="timeline-time" style="color: var(--gold-700); font-weight: 700;">11:30 Horas</span>
+              <h3 class="timeline-title" style="color: var(--olive-900);">Chuva de Pétalas &amp; Fotos dos Padrinhos</h3>
+              <p class="timeline-desc">Cortejo de saída, fotos protocolares exclusivas dos padrinhos com Eluisa &amp; Gabriel no pátio florido da capela.</p>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="glass-water" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">12:00 Horas</span>
+              <h3 class="timeline-title">Recepção &amp; Brinde no Brizola Halls</h3>
+              <p class="timeline-desc">Welcome drink refrescante, mesa de antepastos e brinde especial de honra com os noivos.</p>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="utensils" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">13:00 Horas</span>
+              <h3 class="timeline-title">Almoço Festivo &amp; Banquete</h3>
+              <p class="timeline-desc">Banquete gastronômico em homenagem à união e comemoração em família e amigos íntimos.</p>
+            </div>
+          </div>
+
+          <!-- Item 7 -->
+          <div class="timeline-item">
+            <div class="timeline-node"><i data-lucide="music" style="width: 20px; height: 20px;"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-time">14:30 Horas</span>
+              <h3 class="timeline-title">Corte do Bolo &amp; Pista de Dança</h3>
+              <p class="timeline-desc">Brinde com champagne, mesa de doces finos e início da festa na pista com muita música e alegria com os padrinhos!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCAIS (CERIMÔNIA & RECEPÇÃO) -->
+    <section class="section" id="locais">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Onde Celebraremos</span>
+          <h2 class="section-title">Cerimônia &amp; Recepção</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="venues-grid">
+          
+          <!-- Card Cerimônia Religiosa -->
+          <div class="luxury-card venue-card">
+            <div class="venue-image-wrapper">
+              <span class="venue-badge">Cerimônia Religiosa</span>
+              <img src="assets/images/ceremony_chapel.jpg" alt="Capela Sagrada Família">
+            </div>
+            <div class="venue-body">
+              <h3 class="venue-title">Capela Sagrada Família</h3>
+              <div class="venue-time" style="background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-400);">
+                <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--gold-700);"></i>
+                <strong style="color: var(--olive-900);">Chegada dos Padrinhos: 09:15h</strong>
+              </div>
+              <p class="venue-address">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px; display: inline-block; vertical-align: text-top; color: var(--olive-600);"></i>
+                Capela Sagrada Família, Bairro de Salema, Rio Tinto - PB.
+              </p>
+              <div class="venue-actions">
+                <a href="https://maps.google.com/?q=Capela+Sagrada+Familia+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline">
+                  <i data-lucide="map" style="width: 14px; height: 14px;"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?q=Capela+Sagrada+Familia+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline">
+                  <i data-lucide="navigation" style="width: 14px; height: 14px;"></i> Waze
+                </a>
+                <button class="btn btn-gold venue-calendar-btn" id="btn-ceremony-calendar">
+                  <i data-lucide="calendar-plus" style="width: 14px; height: 14px;"></i> Salvar na Agenda (.ics)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Recepção Brizola Halls -->
+          <div class="luxury-card venue-card">
+            <div class="venue-image-wrapper">
+              <span class="venue-badge">Recepção &amp; Festa</span>
+              <img src="assets/images/reception_hall.jpg" alt="Brizola Halls">
+            </div>
+            <div class="venue-body">
+              <h3 class="venue-title">Brizola Halls</h3>
+              <div class="venue-time">
+                <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
+                <span>A partir das 12:00h (Logo após a cerimônia)</span>
+              </div>
+              <p class="venue-address">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px; display: inline-block; vertical-align: text-top; color: var(--olive-600);"></i>
+                Brizola Halls, Espaço Nobre de Eventos, Bairro de Salema, Rio Tinto - PB.
+              </p>
+              <div class="venue-actions">
+                <a href="https://maps.google.com/?q=Brizola+Halls+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline">
+                  <i data-lucide="map" style="width: 14px; height: 14px;"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?q=Brizola+Halls+Salema+Rio+Tinto+PB" target="_blank" class="btn btn-outline">
+                  <i data-lucide="navigation" style="width: 14px; height: 14px;"></i> Waze
+                </a>
+                <button class="btn btn-gold venue-calendar-btn" id="btn-reception-calendar">
+                  <i data-lucide="calendar-plus" style="width: 14px; height: 14px;"></i> Abrir no Google Calendar
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIRMAÇÃO DE ACEITE (RSVP DOS PADRINHOS) -->
+    <section class="section" id="rsvp">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Sua Resposta de Coração</span>
+          <h2 class="section-title">Aceite Oficial dos Padrinhos</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="luxury-card rsvp-container">
+          <p style="text-align: center; color: var(--text-secondary); margin-bottom: 25px; font-size: 0.95rem;">
+            Por favor, confirme seu aceite até o dia <strong>20 de Dezembro de 2026</strong> para que possamos confeccionar sua caixa personalizada e coordenar todo o cortejo do altar.
+          </p>
+
+          <form id="padrinhos-rsvp-form" class="rsvp-form">
+            
+            <!-- Seleção de Função de Honra -->
+            <div class="form-group">
+              <label class="form-label">Você está confirmando como: *</label>
+              <div class="padrinho-role-selector">
+                <label class="role-radio-card">
+                  <input type="radio" name="padrinho_role" value="Casal de Padrinhos" checked>
+                  <div class="role-radio-content">
+                    <i data-lucide="users" style="width: 22px; height: 22px;"></i>
+                    <span>Casal de Padrinhos</span>
+                  </div>
+                </label>
+                <label class="role-radio-card">
+                  <input type="radio" name="padrinho_role" value="Madrinha">
+                  <div class="role-radio-content">
+                    <i data-lucide="gem" style="width: 22px; height: 22px;"></i>
+                    <span>Madrinha</span>
+                  </div>
+                </label>
+                <label class="role-radio-card">
+                  <input type="radio" name="padrinho_role" value="Padrinho">
+                  <div class="role-radio-content">
+                    <i data-lucide="award" style="width: 22px; height: 22px;"></i>
+                    <span>Padrinho</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="padrinho-name">Nome Completo (ou Nome do Casal) *</label>
+              <input type="text" id="padrinho-name" class="form-input" placeholder="Ex: Mariana Lima &amp; Lucas Henrique" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="padrinho-phone">WhatsApp para Contato *</label>
+              <input type="tel" id="padrinho-phone" class="form-input" placeholder="(83) 99999-9999" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Você aceita ser nosso(a) Padrinho / Madrinha? *</label>
+              <div class="radio-presence-group">
+                <label class="radio-presence-card">
+                  <input type="radio" name="padrinho_acceptance" value="Sim, aceito com todo o coração e muita honra! 💍" checked>
+                  <div class="radio-presence-box">
+                    <i data-lucide="check-circle" style="width: 18px; height: 18px; color: var(--olive-600);"></i>
+                    <span>Sim, aceito com muita honra!</span>
+                  </div>
+                </label>
+                <label class="radio-presence-card">
+                  <input type="radio" name="padrinho_acceptance" value="Infelizmente não poderei assumir este papel">
+                  <div class="radio-presence-box">
+                    <i data-lucide="x-circle" style="width: 18px; height: 18px; color: #9E3A3A;"></i>
+                    <span>Não poderei assumir</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="padrinho-dietary">Restrição Alimentar</label>
+              <select id="padrinho-dietary" class="form-select">
+                <option value="Nenhuma restrição">Nenhuma restrição</option>
+                <option value="Vegetariano">Vegetariano</option>
+                <option value="Vegano">Vegano</option>
+                <option value="Sem Glúten (Celíaco)">Sem Glúten (Celíaco)</option>
+                <option value="Intolerante a Lactose">Intolerante a Lactose</option>
+                <option value="Outra (especificar no recado)">Outra restrição específica</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="padrinho-message">Recado Especial para os Noivos</label>
+              <textarea id="padrinho-message" class="form-textarea" rows="3" placeholder="Deixe uma bênção ou mensagem carinhosa que guardaremos no coração..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px; padding: 16px 28px; font-size: 0.95rem; width: 100%; justify-content: center;">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i> Enviar Aceite Oficial via WhatsApp
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- DICAS ÚTEIS PARA OS PADRINHOS EM RIO TINTO -->
+    <section class="section" id="dicas">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Para o Seu Conforto &amp; Beleza</span>
+          <h2 class="section-title">Dicas Úteis de Rio Tinto - PB</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <div class="tips-grid">
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">💄</div>
+            <h3 class="tip-title">Make &amp; Cabelo para Madrinhas</h3>
+            <p class="tip-desc">Recomendamos agendamento prévio com os melhores salões de Rio Tinto e Mamanguape (a 10 min) ou profissionais com atendimento exclusivo no hotel/pousada.</p>
+          </div>
+
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">💈</div>
+            <h3 class="tip-title">Barbearias &amp; Cuidados Padrinhos</h3>
+            <p class="tip-desc">Barbearias conceituadas no centro de Rio Tinto para barba, corte e alinhamento no dia anterior ou na manhã do evento.</p>
+          </div>
+
+          <div class="luxury-card tip-card">
+            <div class="tip-icon">🏨</div>
+            <h3 class="tip-title">Hospedagem &amp; Pousadas</h3>
+            <p class="tip-desc">Opções charmosas em Rio Tinto, Mamanguape e na Baía da Traição para quem desejar aproveitar um final de semana inesquecível no Litoral Norte da Paraíba.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-section">
+      <div class="container">
+        <img src="assets/icons/monogram.svg" alt="Monograma E & G" class="footer-monogram">
+        <h2 class="footer-text">Eluisa &amp; Gabriel</h2>
+        <div class="padrinho-badge" style="margin: 10px auto 16px; display: inline-flex;">
+          <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--gold-500);"></i>
+          <span>Aos Nossos Amados Padrinhos</span>
+        </div>
+        <p class="footer-sub">17 de Janeiro de 2027 • Capela Sagrada Família &amp; Brizola Halls • Bairro de Salema, Rio Tinto - PB</p>
+        <p style="font-size: 0.75rem; color: var(--olive-400); margin-top: 25px;">Obrigado por fazerem parte da nossa história e do nosso altar.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Scripts do Convite (com versionamento anti-cache) -->
+  <script src="js/three-scene.js?v=5.0"></script>
+  <script src="js/music-player.js?v=5.0"></script>
+  <script src="js/countdown.js?v=5.0"></script>
+  <script src="js/calendar.js?v=5.0"></script>
+  <script src="js/envelope.js?v=5.0"></script>
+  <script src="js/padrinhos-rsvp.js?v=5.0"></script>
+
+  <!-- Inicializa Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
