@@ -90,15 +90,24 @@ document.addEventListener('DOMContentLoaded', () => {
         (message ? `💌 *Mensagem carinhosa:* "${message}"\n` : '') +
         `\nCom muito amor e carinho! ✨`;
 
-      const waUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(textMsg)}`;
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textMsg)}`;
 
-      setTimeout(() => {
-        window.open(waUrl, '_blank');
-        rsvpForm.reset();
-        if (displayGuests) displayGuests.textContent = '1';
-        if (inputGuests) inputGuests.value = '1';
-        guestsCount = 1;
-      }, 1200);
+      // Reseta formulário
+      rsvpForm.reset();
+      if (displayGuests) displayGuests.textContent = '1';
+      if (inputGuests) inputGuests.value = '1';
+      guestsCount = 1;
+
+      // Compatibilidade Apple (iOS / Safari) e Android
+      const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+      if (isApple) {
+        window.location.href = waUrl;
+      } else {
+        const newTab = window.open(waUrl, '_blank');
+        if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+          window.location.href = waUrl;
+        }
+      }
     });
   }
 });

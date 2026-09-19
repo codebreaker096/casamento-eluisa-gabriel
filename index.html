@@ -10,9 +10,9 @@
   <link rel="icon" type="image/svg+xml" href="assets/icons/monogram.svg">
   
   <!-- CSS do Projeto (com versionamento anti-cache) -->
-  <link rel="stylesheet" href="css/main.css?v=5.1">
-  <link rel="stylesheet" href="css/envelope.css?v=5.1">
-  <link rel="stylesheet" href="css/components.css?v=5.1">
+  <link rel="stylesheet" href="css/main.css?v=5.2">
+  <link rel="stylesheet" href="css/envelope.css?v=5.2">
+  <link rel="stylesheet" href="css/components.css?v=5.2">
 
   <!-- Three.js para Efeitos Gráficos 3D -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -107,6 +107,7 @@
     <a href="#cronograma"><i data-lucide="clock" style="width: 14px; height: 14px;"></i> <span>Horários</span></a>
     <a href="#historia"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> <span>História</span></a>
     <a href="#dresscode"><i data-lucide="palette" style="width: 14px; height: 14px;"></i> <span>Traje</span></a>
+    <a href="#presentes"><i data-lucide="gift" style="width: 14px; height: 14px;"></i> <span>Presentes</span></a>
     <a href="#rsvp" class="nav-rsvp-btn"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i> <span>RSVP</span></a>
   </nav>
 
@@ -447,6 +448,360 @@
       </div>
     </section>
 
+    <!-- LISTA DE PRESENTES & PIX -->
+    <section class="section" id="presentes">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Mimos &amp; Cotas de Amor</span>
+          <h2 class="section-title">Presentes &amp; PIX</h2>
+          <img src="assets/icons/botanical_divider.svg" alt="Divisor" class="botanical-divider">
+        </div>
+
+        <p class="gifts-intro-text">
+          A sua presença no nosso grande dia é o nosso maior presente! Se desejar nos presentear e nos ajudar na construção do nosso novo lar ou na nossa tão sonhada Lua de Mel, criamos esta lista de cotas e mimos com muito carinho e bom humor.
+        </p>
+
+        <!-- 1. CARD PRINCIPAL COM QR CODE FIXO E CHAVE CELULAR -->
+        <div class="pix-hero-card">
+          <div class="pix-hero-grid">
+            
+            <div class="pix-qr-showcase">
+              <div class="pix-qr-frame-hero">
+                <div id="fixed-pix-qrcode"></div>
+              </div>
+              <span class="pix-qr-hint">
+                <i data-lucide="scan" style="width: 14px; height: 14px; color: var(--gold-600);"></i>
+                Aponte a câmera do seu banco
+              </span>
+            </div>
+
+            <div class="pix-hero-details">
+              <span class="pix-badge-pill">
+                <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--gold-600);"></i>
+                Chave PIX Oficial dos Noivos
+              </span>
+              
+              <h3 class="pix-hero-title">Presenteie via PIX</h3>
+              <p class="pix-hero-desc">
+                Você pode realizar sua contribuição de qualquer valor escaneando o QR Code ao lado ou copiando nossa chave celular cadastrada:
+              </p>
+
+              <div class="pix-key-box">
+                <div class="pix-key-info">
+                  <span class="pix-key-label">Chave Celular / Telefone:</span>
+                  <span class="pix-key-val" id="fixed-pix-key-display">(83) 98700-9529</span>
+                  <span class="pix-key-beneficiary">Titular: Eluisa &amp; Gabriel • Rio Tinto - PB</span>
+                </div>
+                <button type="button" class="btn-copy-gold" id="btn-copy-fixed-key" title="Copiar Chave PIX">
+                  <i data-lucide="copy" style="width: 16px; height: 16px;"></i>
+                  <span>Copiar Chave</span>
+                </button>
+              </div>
+
+              <div class="pix-hero-actions">
+                <button type="button" class="btn btn-outline" id="btn-copy-fixed-payload">
+                  <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+                  <span>Copiar Pix Copia e Cola</span>
+                </button>
+                <button type="button" class="btn btn-outline" id="btn-fixed-custom-gift">
+                  <i data-lucide="sliders" style="width: 14px; height: 14px;"></i>
+                  <span>Cota com Valor Livre</span>
+                </button>
+                <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); margin-left: 6px;">
+                  <i data-lucide="shield-check" style="width: 15px; height: 15px; color: var(--olive-600);"></i>
+                  <span>Transação 100% direta e segura</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. DINÂMICA: TERMÔMETRO DA LUA DE MEL -->
+        <div class="honeymoon-meter-card">
+          <div class="meter-header">
+            <span class="meter-title">
+              <i data-lucide="plane-takeoff" style="width: 20px; height: 20px; color: var(--gold-600);"></i>
+              Termômetro da Lua de Mel &amp; Casa Nova
+            </span>
+            <span class="meter-badge">✨ 74% dos Sonhos em Andamento</span>
+          </div>
+          <div class="meter-bar-track">
+            <div class="meter-bar-fill"></div>
+          </div>
+          <p class="meter-footer-text">
+            “Cada gesto de carinho e bênção torna o nosso começo de vida a dois ainda mais inesquecível!”
+          </p>
+        </div>
+
+        <!-- 3. DINÂMICA: FILTROS DE CATEGORIA -->
+        <div class="gift-filters-wrapper">
+          <button type="button" class="gift-filter-pill active" data-filter="all">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Todos os Mimos
+          </button>
+          <button type="button" class="gift-filter-pill" data-filter="luademel">
+            <i data-lucide="palmtree" style="width: 14px; height: 14px;"></i> ✈️ Lua de Mel
+          </button>
+          <button type="button" class="gift-filter-pill" data-filter="casanova">
+            <i data-lucide="home" style="width: 14px; height: 14px;"></i> 🏡 Casa &amp; Cozinha
+          </button>
+          <button type="button" class="gift-filter-pill" data-filter="zoacao">
+            <i data-lucide="smile" style="width: 14px; height: 14px;"></i> 😂 Zoação &amp; Humor
+          </button>
+          <button type="button" class="gift-filter-pill" data-filter="drinks">
+            <i data-lucide="glass-water" style="width: 14px; height: 14px;"></i> 🍹 Celebração
+          </button>
+        </div>
+
+        <!-- 4. GRID DE CARDS COM COTAS CRIATIVAS E FOTOS GERADAS POR IA -->
+        <div class="gifts-grid">
+          
+          <!-- Cota 1 (Foto IA: Praia Lua de Mel) -->
+          <div class="gift-card" data-category="luademel">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_honeymoon_beach.jpg" alt="1 Drink Tropical na Praia">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Lua de Mel</span>
+            <h3 class="gift-title">1 Drink Tropical na Praia</h3>
+            <p class="gift-desc">Para os recém-casados brindarem o amor com água de coco e drinks tropicais à beira-mar.</p>
+            <div class="gift-price">R$ 45,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="1 Drink Tropical na Praia" data-gift-val-num="45" data-gift-value="R$ 45,00" data-gift-desc="Para os noivos relaxarem sob o sol da Paraíba na beira do mar.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 2 -->
+          <div class="gift-card" data-category="zoacao">
+            <span class="gift-category-tag">Humor</span>
+            <div class="gift-icon-bubble">🧘‍♂️</div>
+            <h3 class="gift-title">Calmante pro Gabriel</h3>
+            <p class="gift-desc">Garantia médica de que o noivo não vai tremer nem desmaiar ao ver a Eluisa de branco no altar.</p>
+            <div class="gift-price">R$ 60,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Calmante para o Gabriel no Altar" data-gift-val-num="60" data-gift-value="R$ 60,00" data-gift-desc="Garantia de que o noivo entrará na capela são e salvo para dizer o 'SIM!'.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 3 -->
+          <div class="gift-card" data-category="luademel">
+            <span class="gift-category-tag">Lua de Mel</span>
+            <div class="gift-icon-bubble">🥥</div>
+            <h3 class="gift-title">Água de Coco &amp; Petiscos</h3>
+            <p class="gift-desc">Petiscos regionais e água de coco bem geladinha para o casal repor as energias no litoral.</p>
+            <div class="gift-price">R$ 75,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Água de Coco e Petiscos nas Falésias" data-gift-val-num="75" data-gift-value="R$ 75,00" data-gift-desc="Delícias tropicais com vista para as falésias paraibanas.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 4 (Foto IA: Espumante) -->
+          <div class="gift-card" data-category="drinks">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_toast_champagne.jpg" alt="Balde de Espumante para os Padrinhos">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Celebração</span>
+            <h3 class="gift-title">Balde de Espumante</h3>
+            <p class="gift-desc">Para manter a animação, o brinde e a energia dos padrinhos no nível máximo no Brizola Halls!</p>
+            <div class="gift-price">R$ 90,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Balde de Espumante para os Padrinhos" data-gift-val-num="90" data-gift-value="R$ 90,00" data-gift-desc="Para brindar a alegria e manter a pista do Brizola Halls fervendo.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 5 (Foto IA: Café da Manhã) -->
+          <div class="gift-card" data-category="casanova">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_breakfast_tray.jpg" alt="Café com Cuscuz e Amor">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Casa Nova</span>
+            <h3 class="gift-title">Café com Cuscuz e Amor</h3>
+            <p class="gift-desc">Mesa farta de cuscuz quentinho com manteiga, tapioca recheada e café fresco para manhãs a dois.</p>
+            <div class="gift-price">R$ 110,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Café da Manhã com Cuscuz e Amor" data-gift-val-num="110" data-gift-value="R$ 110,00" data-gift-desc="Para manhãs deliciosas de muito amor e comida boa no novo lar.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 6 -->
+          <div class="gift-card" data-category="zoacao">
+            <span class="gift-category-tag">Humor</span>
+            <div class="gift-icon-bubble">🩹</div>
+            <h3 class="gift-title">Kit Anti-Ressaca Padrinhos</h3>
+            <p class="gift-desc">Engov, isotônico e café forte para ressuscitar os padrinhos e convidados no dia seguinte à festa.</p>
+            <div class="gift-price">R$ 130,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Kit Anti-Ressaca para os Padrinhos" data-gift-val-num="130" data-gift-value="R$ 130,00" data-gift-desc="Socorro médico essencial pós-casamento para quem curtiu a pista até o fim!">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 7 -->
+          <div class="gift-card" data-category="zoacao">
+            <span class="gift-category-tag">Humor</span>
+            <div class="gift-icon-bubble">📺</div>
+            <h3 class="gift-title">Paz na TV: Streaming</h3>
+            <p class="gift-desc">1 Ano de assinaturas para não haver nenhuma disputa pelo controle remoto no domingo.</p>
+            <div class="gift-price">R$ 150,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Paz na TV: Streaming e Pipoca" data-gift-val-num="150" data-gift-value="R$ 150,00" data-gift-desc="Evita brigas por séries e garante filmes e pipoca para os dois.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 8 (Foto IA: Jantar Romântico) -->
+          <div class="gift-card" data-category="luademel">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_romantic_dinner.jpg" alt="Jantar Romântico à Luz de Velas">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Romance</span>
+            <h3 class="gift-title">Jantar à Luz de Velas</h3>
+            <p class="gift-desc">Uma noite super romântica com frutos do mar frescos e vinho para celebrar o início da vida a dois.</p>
+            <div class="gift-price">R$ 180,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Jantar Romântico à Luz de Velas" data-gift-val-num="180" data-gift-value="R$ 180,00" data-gift-desc="Uma noite especial e inesquecível de gastronomia e romance.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 9 -->
+          <div class="gift-card" data-category="casanova">
+            <span class="gift-category-tag">Casa Nova</span>
+            <div class="gift-icon-bubble">⚡</div>
+            <h3 class="gift-title">Socorro no Ar-Condicionado</h3>
+            <p class="gift-desc">Para os noivos dormirem no friozinho gostoso sem levar um susto na fatura de energia no verão.</p>
+            <div class="gift-price">R$ 210,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Ajuda com a Conta do Ar-Condicionado" data-gift-val-num="210" data-gift-value="R$ 210,00" data-gift-desc="Garante noites frescas e tranquilas sem preocupação com o calor paraibano.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 10 -->
+          <div class="gift-card" data-category="casanova">
+            <span class="gift-category-tag">Casa Nova</span>
+            <div class="gift-icon-bubble">🍳</div>
+            <h3 class="gift-title">Panelas Antiaderentes</h3>
+            <p class="gift-desc">O fim dos ovos grudados na frigideira e a garantia de que as primeiras receitas darão super certo!</p>
+            <div class="gift-price">R$ 240,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Jogo de Panelas Antiaderente dos Noivos" data-gift-val-num="240" data-gift-value="R$ 240,00" data-gift-desc="Culinária sem estresse e comida saborosa na casa nova.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 11 (Foto IA: SPA) -->
+          <div class="gift-card" data-category="luademel">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_spa_relax.jpg" alt="Dia de SPA para a Noiva">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Lua de Mel</span>
+            <h3 class="gift-title">Dia de SPA para a Noiva</h3>
+            <p class="gift-desc">Massagem relaxante, aromaterapia e hidratação merecida pós-correria dos preparativos.</p>
+            <div class="gift-price">R$ 280,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Dia de SPA & Relax para a Noiva" data-gift-val-num="280" data-gift-value="R$ 280,00" data-gift-desc="Um mimo merecido para a noiva descansar e renovar as energias.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 12 -->
+          <div class="gift-card" data-category="casanova">
+            <span class="gift-category-tag">Casa Nova</span>
+            <div class="gift-icon-bubble">🍟</div>
+            <h3 class="gift-title">Airfryer pro Gabriel MasterChef</h3>
+            <p class="gift-desc">Garantia de que o noivo fará petiscos crocantes para as visitas sem sujar a cozinha toda.</p>
+            <div class="gift-price">R$ 320,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Airfryer para o Gabriel virar MasterChef" data-gift-val-num="320" data-gift-value="R$ 320,00" data-gift-desc="Praticidade e petiscos deliciosos para o casal.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 13 (Foto IA: Cozinha Casa Nova) -->
+          <div class="gift-card" data-category="casanova">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_cozy_kitchen.jpg" alt="Feira do Mês dos Noivos">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Casa Nova</span>
+            <h3 class="gift-title">Feira do Mês dos Noivos</h3>
+            <p class="gift-desc">Despensa e geladeira cheias para os recém-casados prepararem seus primeiros pratos juntos.</p>
+            <div class="gift-price">R$ 380,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Primeira Feira de Supermercado dos Noivos" data-gift-val-num="380" data-gift-value="R$ 380,00" data-gift-desc="Despensa abastecida com amor para o novo lar.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 14 (Foto IA: Barco Passeio) -->
+          <div class="gift-card" data-category="luademel">
+            <div class="gift-image-banner">
+              <img src="assets/images/gift_boat_tour.jpg" alt="Passeio de Barco & Mergulho">
+              <div class="gift-image-overlay"></div>
+            </div>
+            <span class="gift-category-tag">Lua de Mel</span>
+            <h3 class="gift-title">Passeio de Barco &amp; Mergulho</h3>
+            <p class="gift-desc">Aventura náutica explorando piscinas naturais e falésias deslumbrantes do litoral paraibano.</p>
+            <div class="gift-price">R$ 450,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Passeio de Barco nas Piscinas Naturais" data-gift-val-num="450" data-gift-value="R$ 450,00" data-gift-desc="Mergulhos inesquecíveis e fotos espetaculares na Lua de Mel.">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 15 -->
+          <div class="gift-card" data-category="zoacao">
+            <span class="gift-category-tag">VIP</span>
+            <div class="gift-icon-bubble">👑</div>
+            <h3 class="gift-title">Convidado VIP Favorito</h3>
+            <p class="gift-desc">Dá direito a foto especial com os noivos, primeiro pedaço de bolo e vaga eterna no coração!</p>
+            <div class="gift-price">R$ 550,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Cota Convidado VIP Favorito dos Noivos" data-gift-val-num="550" data-gift-value="R$ 550,00" data-gift-desc="Status oficial de convidado preferido com muito amor e gratidão!">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+          <!-- Cota 16 -->
+          <div class="gift-card" data-category="casanova">
+            <span class="gift-category-tag">Casa Nova</span>
+            <div class="gift-icon-bubble">🧼</div>
+            <h3 class="gift-title">Cota Paz: Lava-Louças</h3>
+            <p class="gift-desc">O segredo dos casamentos felizes e duradouros: eletrodomésticos dos sonhos para o novo lar.</p>
+            <div class="gift-price">R$ 750,00</div>
+            <button type="button" class="btn-gift-action" data-gift-title="Cota Paz Matrimonial: Máquina Lava-Louças" data-gift-val-num="750" data-gift-value="R$ 750,00" data-gift-desc="A maior bênção para a cozinha e para a harmonia do lar!">
+              <i data-lucide="gift" style="width: 15px; height: 15px;"></i> Presentear
+            </button>
+          </div>
+
+        </div>
+
+        <!-- 5. SIMULADOR DE VALOR LIVRE / PERSONALIZADO -->
+        <div class="custom-gift-box" id="custom-gift-calculator">
+          <div class="gift-icon-bubble" style="margin: 0 auto 12px; font-size: 1.8rem; width: 60px; height: 60px;">✨</div>
+          <h3 class="custom-gift-title">Presenteie com Qualquer Valor</h3>
+          <p class="custom-gift-sub">
+            Seja qual for a quantia que estiver em seu coração, ficaremos eternamente gratos pelo seu carinho e presença!
+          </p>
+
+          <div class="quick-amounts-grid">
+            <button type="button" class="btn-quick-amount active" data-amount="50">R$ 50,00</button>
+            <button type="button" class="btn-quick-amount" data-amount="100">R$ 100,00</button>
+            <button type="button" class="btn-quick-amount" data-amount="150">R$ 150,00</button>
+            <button type="button" class="btn-quick-amount" data-amount="250">R$ 250,00</button>
+            <button type="button" class="btn-quick-amount" data-amount="500">R$ 500,00</button>
+          </div>
+
+          <div class="custom-input-row">
+            <div class="custom-input-wrapper">
+              <span class="custom-currency-symbol">R$</span>
+              <input type="number" id="custom-amount-input" class="custom-amount-input" placeholder="50,00" min="5" step="5" value="50">
+            </div>
+            <button type="button" class="btn btn-gold" id="btn-submit-custom-gift" style="padding: 13px 24px; white-space: nowrap;">
+              <i data-lucide="qr-code" style="width: 16px; height: 16px;"></i>
+              <span>Gerar PIX</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- CONFIRMAÇÃO DE PRESENÇA (RSVP) -->
     <section class="section" id="rsvp">
       <div class="container">
@@ -571,6 +926,52 @@
 
   </main>
 
+  <!-- MODAL PIX & QR CODE INTERATIVO -->
+  <div class="modal-backdrop" id="pix-modal" aria-hidden="true" role="dialog">
+    <div class="modal-card">
+      <button class="modal-close" id="pix-modal-close" aria-label="Fechar Modal">&times;</button>
+      
+      <div class="modal-gift-header">
+        <span class="pix-badge-pill" style="margin: 0 auto 8px;">Presente Escolhido</span>
+        <h3 class="modal-gift-title" id="pix-item-title">Cota de Casamento</h3>
+        <div class="modal-gift-val-badge" id="pix-item-value">R$ 50,00</div>
+        <p class="modal-gift-desc" id="pix-item-desc">Contribuição com muito amor para os noivos.</p>
+      </div>
+
+      <div class="pix-modal-qr-frame">
+        <div id="pix-modal-qrcode"></div>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">
+        Aponte a câmera do app do seu banco para o QR Code acima
+      </p>
+
+      <div class="modal-copy-section">
+        <div class="modal-key-display">
+          <div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Chave PIX (Celular):</div>
+            <div class="modal-key-text" id="pix-key-text">83987009529</div>
+          </div>
+          <button type="button" class="btn btn-outline" id="btn-copy-pix-key" style="padding: 6px 12px; font-size: 0.8rem;">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copiar
+          </button>
+        </div>
+
+        <div style="text-align: left;">
+          <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Código PIX Copia e Cola:</div>
+          <textarea class="modal-code-textarea" id="pix-copia-cola-text" readonly placeholder="Carregando código copia e cola..."></textarea>
+          <button type="button" class="btn btn-gold" id="btn-copy-pix-code" style="width: 100%; margin-top: 6px; padding: 10px; font-size: 0.85rem;">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copiar Código PIX Copia e Cola
+          </button>
+        </div>
+
+        <a href="#" target="_blank" class="modal-btn-whatsapp" id="btn-pix-whatsapp">
+          <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
+          <span>Avisar os Noivos no WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts do Convite (com versionamento anti-cache) -->
   <script src="js/three-scene.js?v=5.0"></script>
   <script src="js/music-player.js?v=5.0"></script>
@@ -578,6 +979,7 @@
   <script src="js/rsvp.js?v=5.0"></script>
   <script src="js/calendar.js?v=5.0"></script>
   <script src="js/envelope.js?v=5.0"></script>
+  <script src="js/pix-modal.js?v=5.2"></script>
 
   <!-- Inicializa Lucide Icons -->
   <script>

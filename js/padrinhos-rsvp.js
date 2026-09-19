@@ -67,12 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
         (message ? `💌 *Mensagem para os Noivos:* "${message}"\n` : '') +
         `\nCom muito amor, carinho e honra por estar no altar com vocês! ✨🌿`;
 
-      const waUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(textMsg)}`;
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textMsg)}`;
 
-      setTimeout(() => {
-        window.open(waUrl, '_blank');
-        padrinhosForm.reset();
-      }, 1200);
+      padrinhosForm.reset();
+
+      // Compatibilidade Apple (iOS / Safari) e Android
+      const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+      if (isApple) {
+        window.location.href = waUrl;
+      } else {
+        const newTab = window.open(waUrl, '_blank');
+        if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+          window.location.href = waUrl;
+        }
+      }
     });
   }
 });
